@@ -1,11 +1,10 @@
 # COMP-354
 
-Tristan	1. arccos(x) 
-Zeke	2. ab^x 
-Hyhy	3. logb(x) 
-Cyrus	4. Γ(x) (Gamma Function) 
-Nick	5. MAD (Mean Absolute Deviation) 
-Jeremy  6. σ (Standard Deviation) 
-Tristan	7. sinh(x) 
-Minh	8. x^y 
-
+1. arccos(x) (Tristan)
+2. ab^x (Zake)
+3. logb(x) (Khang)
+4. Γ(x) (Gamma Function)(Cyrus)
+5. MAD (Mean Absolute Deviation) (Nick)
+6. σ (Standard Deviation)(Jeremy)
+7. sinh(x) (Tristan)
+8. x^y (Minh)
