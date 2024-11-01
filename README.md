@@ -8,3 +8,5 @@
 6. σ (Standard Deviation)(Jeremy)
 7. sinh(x) (Tristan)
 8. x^y (Minh)
+
+new line to showcase pull request
