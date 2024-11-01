@@ -1,0 +1,42 @@
+# Eclipse IDE files
+.project
+.classpath
+.settings/
+
+# Build Folders
+bin/
+target/
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+
+# Compiled files
+*.class
+
+# Logs
+*.log
+
+# Package Files
+*.jar
+*.war
+*.ear
+
+# Maven specific
+.mvn/
+!**/src/main/**  # Keep all source files if using Maven
+!.mvn/wrapper/maven-wrapper.jar  # Keep Maven wrapper files
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# User-specific files
+*.iml
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
