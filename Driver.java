@@ -14,7 +14,7 @@ public class Driver {
         do{
             System.out.println("\nWelcome to Eternity, please select a function:\n" +
                 "1- arccos(x)\n" + "2- ab^(x)\n" + "3- log_b (x)\n" +
-                "4- ﾎ�(x)\n" + "5- MAD\n" + "6- ﾏソn" + "7- sinh(x)\n" +
+                "4- gamma\n" + "5- MAD\n" + "6- std Deviation\n" + "7- sinh(x)\n" +
                 "8- x^y\n" + "9- exit\n");
 
             userFunctionSelection = input.nextInt();
@@ -28,6 +28,9 @@ public class Driver {
                 	System.out.println(f.abx(a, b, x));
                     break;
                 case 3:
+                	System.out.println("Please input value of base b and value x");
+                	double b_3 = input.nextDouble(), x_3 = input.nextDouble();
+                	System.out.println(f.log(b_3, x_3));
                     break;
                 case 4:
                     break;
