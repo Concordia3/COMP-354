@@ -51,90 +51,27 @@ public class Function {
 			powerResult = 1 / powerResult;
 		} else if (exponent > 0 && (int) exponent != exponent) { // Check if the exponent is a positive fractional
 																	// number
-			for (int i = 0; i < getNumerator(exponent); i++) {
-				powerResult *= base;
-			}
-			powerResult = nthRoot(powerResult, getDenominator(exponent));
+			powerResult = exp(exponent * calculateLn(base));
 
 		} else if (exponent < 0 && (int) exponent != exponent) { // Check if the exponent is a negative fractional
 																	// number
-			for (int i = 0; i < getNumerator(-exponent); i++) {
-				powerResult *= base;
-			}
-			powerResult = 1 / nthRoot(powerResult, getDenominator(-exponent));
+			powerResult = 1 / exp(-exponent * calculateLn(base));
 		}
 		return powerResult;
 	}
 
-	public static class Fraction {
-		public int numerator;
-		public int denominator;
+	// exp(x)
+	public static double exp(double x) {
+		double result = 1.0; // first term
+		double term = 1.0; // for each iteration, term = term * x / i
+		int n = 40; // maximum number of iterations
 
-		public Fraction(int numerator, int denominator) {
-			this.numerator = numerator;
-			this.denominator = denominator;
-		}
-	}
-
-	public static Function.Fraction fraction(double decimal) {
-		int sign = decimal < 0 ? -1 : 1;
-		decimal = decimal < 0 ? -decimal : decimal;
-		int integerPart = (int) decimal;
-		double fractionalPart = decimal - integerPart;
-
-		// calculate denominator
-		int denominator = 1;
-		while (fractionalPart != (int) fractionalPart) {
-			fractionalPart *= 10;
-			denominator *= 10;
+		for (int i = 1; i <= n; i++) {
+			term *= x / i;
+			result += term;
 		}
 
-		// calculate numerator
-		int numerator = (int) (fractionalPart + integerPart * denominator);
-
-		// reduce
-		int gcd = findGCD(numerator, denominator);
-		numerator /= gcd;
-		denominator /= gcd;
-
-		return new Fraction(numerator, denominator);
-	}
-
-	public static int getNumerator(double decimal) {
-		return fraction(decimal).numerator;
-	}
-
-	public static int getDenominator(double decimal) {
-		return fraction(decimal).denominator;
-	}
-
-	// GCD
-	public static int findGCD(int a, int b) {
-		while (b != 0) {
-			int temp = b;
-			b = a % b;
-			a = temp;
-		}
-		return a;
-	}
-
-	public static double nthRoot(double value, int n) {
-		if (value < 0 && n % 2 == 0) {
-			throw new IllegalArgumentException("Cannot compute even root of a negative number.");
-		}
-
-		if (value == 0) {
-			return 0;
-		}
-
-		double guess = value / n; // initial guess
-		double epsilon = 1e-13; // tolerance
-
-		while (absolute(power(guess, n) - value) > epsilon) {
-			guess = ((n - 1) * guess + value / power(guess, n - 1)) / n;
-		}
-
-		return guess;
+		return result;
 	}
 
 	// calculate base^exponent
