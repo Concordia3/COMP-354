@@ -59,9 +59,8 @@ public class Function {
 		}
 		return powerResult;
 	}
-
-	// exp(x)
-	public static double exp(double x) {
+		
+	public static double exp(double x) { // exp(x)
 		double result = 1.0; // first term
 		double term = 1.0; // for each iteration, term = term * x / i
 		int n = 40; // maximum number of iterations
@@ -74,20 +73,14 @@ public class Function {
 		return result;
 	}
 
-	// calculate base^exponent
-	public static double power(double base, int exponent) {
+	public static double power(double base, int exponent) { // calculate base^exponent
 		double result = 1.0;
 		for (int i = 0; i < exponent; i++) {
 			result *= base;
 		}
 		return result;
 	}
-
-	// abs(x)
-	public static double absolute(double value) {
-		return value < 0 ? -value : value;
-	}
-
+		
 	// Method to calculate ln(x) using a Taylor series
 	public static double calculateLn(double x) {
 		if (x <= 0) {
