@@ -103,7 +103,7 @@ public class Function {
 	public double stdDeviation(double[] data)
 	{
 		int n = data.length;
-		if(n = 0){
+		if(n == 0){
 			throw new IllegalArgumentException("No data was given!");
 		}
         double sum = 0;
@@ -117,7 +117,7 @@ public class Function {
 		// Calculate variance
         double varianceSum = 0;
         for (double value : data) {
-            varianceSum += Math.pow(value - mean, 2);
+            varianceSum +=  xy((value - mean), 2);
         }
         double variance = varianceSum / n;
         
