@@ -61,9 +61,45 @@ public class Function {
 
 		return a*bx;
 	}
+	
+    // Method to calculate ln(x) using a Taylor series
+    public static double calculateLn(double x) {
+        if (x <= 0) {
+            throw new IllegalArgumentException("x must be positive.");
+        }
+        
+        // Transform x to be close to 1 for faster convergence
+        int k = 0;
+        while (x > 2) {
+            x /= 2;
+            k++;
+        }        
+        x = (x - 1) / (x + 1);
+        double result = 0.0;
+        double term = x;
+        double xSquared = x * x;
 
+        for (int i = 1; i <= 100; i += 2) { // Taylor series sum
+            result += term / i;
+            term *= xSquared;
+        }
+
+        result *= 2; // Multiply by 2 as per Taylor series formula
+        result += k * 0.69314718056; // Adjust for factors of 2 (ln(2) ≈ 0.693147)
+
+        return result;
+    }
+	
 	//log_b(x)
 	public double log(double base, double x)
+	{
+        double lnX = calculateLn(x);
+        double lnBase = calculateLn(base);
+        return lnX / lnBase;
+	}
+	
+	// gamma
+	public double gamma(double base, double x)
 	{
 		return 0;
 	}
@@ -77,8 +113,9 @@ public class Function {
 
 		return (absDeviation) / N;
 	}
+  
+	// (Standard Deviation) 
 
-	// �� (Standard Deviation)
 	public double stdDeviation()
 	{
 		return 0;
