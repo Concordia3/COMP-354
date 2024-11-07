@@ -110,5 +110,7 @@ public class Function {
 		return 0;
 	}
 
-
+	public static int modulo(int a, int b){
+		return a % b;
+	}
 }
