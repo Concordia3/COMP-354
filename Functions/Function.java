@@ -1,3 +1,4 @@
+package Functions;
 
 public class Function {
 
@@ -6,6 +7,13 @@ public class Function {
 	 * This Function class will become abstract
 	 * Becoming a blue print for the derived transcendental function class
 	 */
+	
+	public static int inputNeeded = -1, functionChoice = -1;
+	
+	public static enum functions {
+		arccos, abx, log_b, gamma, 
+		MAD, StdDeviation, sinh, xy
+	}
 
 	// take care of input
 	public void input(double[] in) throws IllegalArgumentException {
@@ -22,7 +30,7 @@ public class Function {
 
 	/*
 	 * These are the functions for D2. Feel free to seperate them into their own class.
-	 * If you do so, emember to derived from this Function class
+	 * If you do so, remember to derived from this Function class
 	 */
 
 	// arccos(x)
@@ -85,7 +93,7 @@ public class Function {
         }
 
         result *= 2; // Multiply by 2 as per Taylor series formula
-        result += k * 0.69314718056; // Adjust for factors of 2 (ln(2) ≈ 0.693147)
+        result += k * 0.69314718056; // Adjust for factors of 2 (ln(2))
 
         return result;
     }
@@ -157,13 +165,7 @@ public class Function {
 
 	
 	// Standard Deviation
-	public double stdDeviation(double[] data)
-
-  
-	// (Standard Deviation) 
-  // public double stdDeviation()
-
-	{
+	public double stdDeviation(double[] data) {
 		int n = data.length;
 		if(n == 0){
 			throw new IllegalArgumentException("No data was given!");
@@ -231,7 +233,7 @@ public class Function {
 	}
 
 	// x^y
-	double xy(double x, double y)
+	public double xy(double x, double y)
 	{
 		double exponent = (y < 0) ? -y : y;
 		double result = 1;
@@ -241,11 +243,6 @@ public class Function {
 		}
 
 		return (y < 0) ? 1/result : result;
-	}
-
-	// gamma function
-	public double gamma(double x){
-		return 0;
 	}
 
 	public static int modulo(int a, int b){

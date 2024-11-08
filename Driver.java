@@ -1,5 +1,9 @@
+// Java libraries
 import java.util.Scanner;
-import java.io.*; // idk if we're gonna need this or not, its imported just in case
+
+// User libraries
+import Functions.Function;
+import Calculator.*;
 
 public class Driver {
 
