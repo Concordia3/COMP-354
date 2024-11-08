@@ -61,19 +61,19 @@ public class Function {
 
 		return a*bx;
 	}
-	
+
     // Method to calculate ln(x) using a Taylor series
     public static double calculateLn(double x) {
         if (x <= 0) {
             throw new IllegalArgumentException("x must be positive.");
         }
-        
+
         // Transform x to be close to 1 for faster convergence
         int k = 0;
         while (x > 2) {
             x /= 2;
             k++;
-        }        
+        }
         x = (x - 1) / (x + 1);
         double result = 0.0;
         double term = x;
@@ -89,7 +89,7 @@ public class Function {
 
         return result;
     }
-	
+
 	//log_b(x)
 	public double log(double base, double x)
 	{
@@ -97,7 +97,7 @@ public class Function {
         double lnBase = calculateLn(base);
         return lnX / lnBase;
 	}
-	
+
 
 
 	// gamma function using Lanczos Approximation
@@ -107,13 +107,13 @@ public class Function {
 		if (x <= 0){
 			throw new IllegalArgumentException("Positive value was expected!");			// Error if input is a non-positive number
 		}
-			
+
 		if (x < 0.5){
 			return Math.PI / (Math.sin(Math.PI * x) * gamma(1-x));								// Reflection formula for inputs under 0.5 (small values)
 		}
-			
+
 		else {																					// Lanczos Formula for larger inputs
-			
+
 			final double G = 7;					// constant used in Lanczos Formula
 
 		 	final double[] GAMMACOEFFS = {		// coefficients dependent on G needed for approximating gamma function
@@ -127,8 +127,8 @@ public class Function {
 				1.5056327351493116e-7
 		};
 
-			x -= 1;									
-			double a = 0.99999999999980993;							// accumulator variable 
+			x -= 1;
+			double a = 0.99999999999980993;							// accumulator variable
 			double t = x + G + 0.5;									// variable to simplify Lanczos Formula manipulation
 
 			for (int i = 0; i < GAMMACOEFFS.length; i++) {
@@ -155,12 +155,12 @@ public class Function {
 		return (absDeviation) / N;
 	}
 
-	
+
 	// Standard Deviation
 	public double stdDeviation(double[] data)
 
-  
-	// (Standard Deviation) 
+
+	// (Standard Deviation)
   // public double stdDeviation()
 
 	{
@@ -169,7 +169,7 @@ public class Function {
 			throw new IllegalArgumentException("No data was given!");
 		}
         double sum = 0;
-        
+
         // Calculate mean
         for (double value : data) {
             sum += value;
@@ -182,12 +182,12 @@ public class Function {
             varianceSum +=  xy((value - mean), 2);
         }
         double variance = varianceSum / n;
-        
+
         // Calculate standard deviation
         return Math.sqrt(variance);
 	}
 
-	
+
 	// factorial function
 	public long factorial(int x) {
 
@@ -201,7 +201,7 @@ public class Function {
 /* 	// sin(x) function
 	public double sin(double x) {
 
-		x = x % (2 * Math.PI);		
+		x = x % (2 * Math.PI);
 
 		double result = 0.0;
 
@@ -209,12 +209,12 @@ public class Function {
 
 			int exponent = 2 * i + 1;
 			double term = xy(x, exponent) / factorial(exponent);
-			
+
 			if (i % 2 != 0)
 				term = -term;
 
 			result += term;
-			
+
 		}
 
 		return result;
@@ -241,11 +241,6 @@ public class Function {
 		}
 
 		return (y < 0) ? 1/result : result;
-	}
-
-	// gamma function
-	public double gamma(double x){
-		return 0;
 	}
 
 	public static int modulo(int a, int b){
