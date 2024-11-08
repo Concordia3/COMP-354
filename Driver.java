@@ -40,6 +40,15 @@ public class Driver {
                 	System.out.println(f.MAD(X, myu, N));
                     break;
                 case 6:
+                	System.out.println("Please input data values with a space between each (e.g. 5 1 3)");
+                    input.nextLine();
+                    String dataString = input.nextLine();
+                    String[] dataStrArray = dataString.split("\\s+");
+                    double[] data = new double[dataStrArray.length];
+                    for (int i = 0; i < data.length; i++) {
+                        data[i] = Double.parseDouble(dataStrArray[i]);
+                    }
+                    System.out.println(f.stdDeviation(data));
                     break;
                 case 7:
                     break;

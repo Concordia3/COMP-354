@@ -154,12 +154,37 @@ public class Function {
 
 		return (absDeviation) / N;
 	}
+
+	
+	// Standard Deviation
+	public double stdDeviation(double[] data)
+
   
 	// (Standard Deviation) 
+  // public double stdDeviation()
 
-	public double stdDeviation()
 	{
-		return 0;
+		int n = data.length;
+		if(n == 0){
+			throw new IllegalArgumentException("No data was given!");
+		}
+        double sum = 0;
+        
+        // Calculate mean
+        for (double value : data) {
+            sum += value;
+        }
+        double mean = sum / n;
+
+		// Calculate variance
+        double varianceSum = 0;
+        for (double value : data) {
+            varianceSum +=  xy((value - mean), 2);
+        }
+        double variance = varianceSum / n;
+        
+        // Calculate standard deviation
+        return Math.sqrt(variance);
 	}
 
 	
