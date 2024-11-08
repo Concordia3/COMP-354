@@ -474,7 +474,7 @@ class MyTranscendButton extends JButton implements ActionListener {
     	 * TODO: Set your function parameters here
     	 * 1. Set the calculator instruction text (bottom text box)
     	 * 2. Set the Function class which function is currently in progress
-    	 * 3. Set how many input needed (OPTIONAL: Khang removed the requirement for this so StdDeviation can have inf input)
+    	 * 3. Set how many input needed (Khang removed this requirement for StdDeviation so only that can have inf input)
     	 * 4. Set the calculator's function choice to reflect the Function class settings (By default is already set)
     	 * 5. Set the calculator display text (top text box)
     	 */

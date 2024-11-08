@@ -35,7 +35,7 @@ public class Function {
 			throw new IllegalArgumentException("Nah fam we not working! No input needed!");
 		}
 		
-		if (inputNeeded <= 0) {
+		if (functionChoice != functions.StdDeviation.toString() && inputNeeded > number.size()) {
 			throw new IllegalArgumentException("More input needed!");
 		}
 		
