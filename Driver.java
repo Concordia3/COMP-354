@@ -1,6 +1,19 @@
 import java.util.Scanner;
 import java.io.*; // idk if we're gonna need this or not, its imported just in case
 
+/**
+ * 
+ * Main Driver for the Eternity Calculator
+ * 
+ * @author Cyrus Stonebanks
+ * @author Tristan Szittner-Francis
+ * @author Nick Taddio
+ * @author Hy Khang Tran
+ * @author Jeremy Tang
+ * @author Minh Thien Tran
+ * @author Minghe Sun
+ */
+
 public class Driver {
 
     public static void main(String[] args) {
@@ -33,6 +46,9 @@ public class Driver {
                 	System.out.println(f.log(b_3, x_3));
                     break;
                 case 4:
+                    System.out.println("Please input a positive value");
+                    double gam = input.nextDouble();
+                    System.out.println(f.gamma(gam));
                     break;
                 case 5:
                 	System.out.println("Please input value of X myu N");
