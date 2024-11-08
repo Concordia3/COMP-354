@@ -1,0 +1,6 @@
+Persona: A visually impaired mathematics student
+
+Questions:
+	1) What accesibility features would you want in a scientific calculator software (eg., enlarged buttons, text to speech, colour custimization, etc.)?
+	2) Would a keyboard-shortcut enabled toggle be the best way to enable these accesibility features (ex: ctrl + a to open accesibility settings)?
+	3) How should input errors be conveyed to the impaired user (eg., voice, buzzer, etc.)?
