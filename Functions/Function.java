@@ -32,19 +32,28 @@ public class Function {
 	public double input(ArrayList<Double> number) throws IllegalArgumentException {
 		
 		if (inputNeeded == -1 || functionChoice.equals("Null")) {
-			throw new IllegalArgumentException("No input needed!");
+			throw new IllegalArgumentException("Nah fam we not working! No input needed!");
+		}
+		
+		if (inputNeeded <= 0) {
+			throw new IllegalArgumentException("More input needed!");
 		}
 		
 		// result
 		double result = 0;
 		
+		/*
+		 * TODO: Call your function here with the arrayList number as your function parameters!
+		 * Convert the input to whatever format you need for your function
+		 * Set the result variable to your function result!
+		 */
         switch (functionChoice) {
         case "arccos":
             break;
         case "abx":
-        	return abx(number.get(0), number.get(1), number.get(2));
+        	break;
         case "log_b":
-            break;
+            result = log(number.get(0), number.get(1));
         case "gamma":
             break;
         case "MAD":
@@ -54,7 +63,7 @@ public class Function {
         case "sinh":
             break;
         case "xy":
-            return xy(number.get(0), number.get(1));
+        	result = xy(number.get(0), number.get(1));
         }
             
 		// Reset

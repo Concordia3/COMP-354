@@ -179,8 +179,8 @@ class MyDigitButton extends JButton implements ActionListener {
         this.cl = clc;
         cl.add(this);
         
-        double font = MyCalculator.autosetFont(width, height, cap);
-        Layout layoutInfo = new Layout(x, y, font, Color.BLACK);
+//        double font = MyCalculator.autosetFont(width, height, cap);
+//        Layout layoutInfo = new Layout(x, y, font, Color.BLACK);
         
         // Set the font size for the text
         setFont(new Font("Arial", Font.PLAIN, 18));  // Adjust the font size as needed
@@ -253,8 +253,8 @@ class MyOperatorButton extends JButton implements ActionListener {
         this.cl = clc;
         cl.add(this);
         
-        double font = MyCalculator.autosetFont(width, height, cap);
-        Layout layoutInfo = new Layout(x, y, font, Color.BLACK);
+//        double font = MyCalculator.autosetFont(width, height, cap);
+//        Layout layoutInfo = new Layout(x, y, font, Color.BLACK);
         
         // Set the font size for the text
         setFont(new Font("Arial", Font.PLAIN, 10));  // Adjust the font size as needed
@@ -358,8 +358,8 @@ class MyMemoryButton extends JButton implements ActionListener {
         this.cl = clc;
         cl.add(this);
         
-        double font = MyCalculator.autosetFont(width, height, cap);
-        Layout layoutInfo = new Layout(x, y, font, Color.BLACK);
+//        double font = MyCalculator.autosetFont(width, height, cap);
+//        Layout layoutInfo = new Layout(x, y, font, Color.BLACK);
         
         // Set the font size for the text
         setFont(new Font("Arial", Font.PLAIN, 10));  // Adjust the font size as needed
@@ -407,8 +407,8 @@ class MySpecialButton extends JButton implements ActionListener {
         this.cl = clc;
         cl.add(this);
         
-        double font = MyCalculator.autosetFont(width, height, cap);
-        Layout layoutInfo = new Layout(x, y, font, Color.BLACK);
+//        double font = MyCalculator.autosetFont(width, height, cap);
+//        Layout layoutInfo = new Layout(x, y, font, Color.BLACK);
         
         // Set the font size for the text
         setFont(new Font("Arial", Font.PLAIN, 18));  // Adjust the font size as needed
@@ -455,8 +455,8 @@ class MyTranscendButton extends JButton implements ActionListener {
         this.cl = clc;
         cl.add(this);
         
-        double font = MyCalculator.autosetFont(width, height, cap);
-        Layout layoutInfo = new Layout(x, y, font, Color.BLACK);
+//        double font = MyCalculator.autosetFont(width, height, cap);
+//        Layout layoutInfo = new Layout(x, y, font, Color.BLACK);
         
         // Set the font size for the text
         setFont(new Font("Arial", Font.PLAIN, 8));  // Adjust the font size as needed
@@ -470,45 +470,49 @@ class MyTranscendButton extends JButton implements ActionListener {
     public void actionPerformed(ActionEvent ev) {
     	String transText = ((MyTranscendButton) ev.getSource()).getText();
 
+    	/*
+    	 * TODO: Set your function parameters here
+    	 * 1. Set the calculator instruction text (bottom text box)
+    	 * 2. Set the Function class which function is currently in progress
+    	 * 3. Set how many input needed (OPTIONAL: Khang removed the requirement for this so StdDeviation can have inf input)
+    	 * 4. Set the calculator's function choice to reflect the Function class settings (By default is already set)
+    	 * 5. Set the calculator display text (top text box)
+    	 */
         switch (transText) {
 	        case "arccos(x)":
 	            break;
 	        case "ab^x":
-	        	System.out.println("Please input value of a b x");
-//	        	double a = input.nextDouble(), b = input.nextDouble(), x = input.nextDouble();
-//	        	System.out.println(f.abx(a, b, x));
 	            break;
 	        case "log_b(x)":
-	        	System.out.println("Please input value of base b and value x");
-//	        	double b_3 = input.nextDouble(), x_3 = input.nextDouble();
-//	        	System.out.println(f.log(b_3, x_3));
+	        	// 1. Set the calculator instruction text (bottom text box)
+	        	cl.instructLabel.setText("Input the base and value x with a space between using underscore (e.g. 5_3)");
+	        	// 2. Set the Function class which function is currently in progress
+	        	Function.functionChoice = Function.functions.log_b.toString();
+	        	// 3. Set how many input needed
+	        	Function.inputNeeded = 2;
+	        	// 4. Set the calculator's function choice to reflect the Function class settings
+	        	cl.op = Function.functionChoice;
+	        	// 5. Set the calculator display text (top text box)
+	        	cl.displayLabel.setText("log_b(x)");
 	            break;
 	        case "gamma":
 	            break;
 	        case "MAD":
-	        	System.out.println("Please input value of X myu N");
-//	        	double X = input.nextDouble(), myu = input.nextDouble(), N = input.nextDouble();
-//	        	System.out.println(f.MAD(X, myu, N));
 	            break;
 	        case "Std Deviation":
-	        	System.out.println("Please input data values with a space between each (e.g. 5 1 3)");
-//	            input.nextLine();
-//	            String dataString = input.nextLine();
-//	            String[] dataStrArray = dataString.split("\\s+");
-//	            double[] data = new double[dataStrArray.length];
-//	            for (int i = 0; i < data.length; i++) {
-//	                data[i] = Double.parseDouble(dataStrArray[i]);
-//	            }
-//	            System.out.println(f.stdDeviation(data));
 	            break;
 	        case "sinh(x)":
 	            break;
 	        case "x^y":
-	        	System.out.println("Input data values with a space between each using underscore (e.g. 5_3)");
-	        	cl.instructLabel.setText("Input data values with a space between each using underscore (e.g. 5_3)");
+	        	// 1. Set the calculator instruction text (bottom text box)
+	        	cl.instructLabel.setText("Input 2 values with a space between each using underscore (e.g. 5_3)");
+	        	// 2. Set the Function class which function is currently in progress
 	        	Function.functionChoice = Function.functions.xy.toString();
+	        	// 3. Set how many input needed
 	        	Function.inputNeeded = 2;
+	        	// 4. Set the calculator's function choice to reflect the Function class settings
 	        	cl.op = Function.functionChoice;
+	        	// 5. Set the calculator display text (top text box)
 	        	cl.displayLabel.setText("x^y");
 	            break;
 	
