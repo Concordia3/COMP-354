@@ -1,5 +1,7 @@
 package Functions;
 
+import java.util.ArrayList;
+
 public class Function {
 
 	/*
@@ -8,15 +10,58 @@ public class Function {
 	 * Becoming a blue print for the derived transcendental function class
 	 */
 	
-	public static int inputNeeded = -1, functionChoice = -1;
-	
 	public static enum functions {
 		arccos, abx, log_b, gamma, 
 		MAD, StdDeviation, sinh, xy
 	}
+	
+    // Generic method to check if the string is a valid enum constant
+    public static <E extends Enum<E>> boolean isValidEnum(String value, Class<E> enumClass) {
+        try {
+            Enum.valueOf(enumClass, value);
+            return true; // If no exception is thrown, the string is a valid enum constant
+        } catch (IllegalArgumentException e) {
+            return false; // If an exception is thrown, the string is not a valid enum constant
+        }
+    }
+	
+	public static int inputNeeded = -1;
+	public static String functionChoice = "Null";
 
 	// take care of input
-	public void input(double[] in) throws IllegalArgumentException {
+	public double input(ArrayList<Double> number) throws IllegalArgumentException {
+		
+		if (inputNeeded == -1 || functionChoice.equals("Null")) {
+			throw new IllegalArgumentException("No input needed!");
+		}
+		
+		// result
+		double result = 0;
+		
+        switch (functionChoice) {
+        case "arccos":
+            break;
+        case "abx":
+        	return abx(number.get(0), number.get(1), number.get(2));
+        case "log_b":
+            break;
+        case "gamma":
+            break;
+        case "MAD":
+            break;
+        case "StdDeviation":
+            break;
+        case "sinh":
+            break;
+        case "xy":
+            return xy(number.get(0), number.get(1));
+        }
+            
+		// Reset
+		inputNeeded = -1;
+		functionChoice = "Null";
+		
+		return result;
 	}
 
 	// do the calculation

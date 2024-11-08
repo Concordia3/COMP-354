@@ -3,22 +3,28 @@ package Calculator;
 /*********************************************
 SOURCE: https://www.javatpoint.com/calculator-in-java
 **********************************************/
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 import Functions.Function;
 import Utilities.Utilities;
 /*********************************************/
 
+@SuppressWarnings("serial")
 public class MyCalculator extends JFrame {
 
     boolean setClear = true;
-    double number[] = new double[10], memValue[] = new double[10];
+    ArrayList<Double> number = new ArrayList<Double>(10);
+    double memValue[] = new double[10];
     String op;
-    
-    static int inputNeeded = -1, functionChoice = -1;
 
     // Button text arrays
     String digitButtonText[] = {"7", "8", "9", "4", "5", "6", "1", "2", "3", "0", ".", "_"};
@@ -139,7 +145,7 @@ public class MyCalculator extends JFrame {
     }
     
 	private static void draw() {
-		// TODO Auto-generated method stub
+		// TODO Use this to set button position
 		
 	}
 
@@ -163,6 +169,7 @@ public class MyCalculator extends JFrame {
 
 ////////////////////////////////////////////////
 
+@SuppressWarnings("serial")
 class MyDigitButton extends JButton implements ActionListener {
     private MyCalculator cl;
 
@@ -203,6 +210,18 @@ class MyDigitButton extends JButton implements ActionListener {
             }
             return;
         }
+        
+        if (tempText.equals("_"))
+        {
+            try {
+                String input = cl.displayLabel.getText();
+                String[] tokens = input.split("\\s+");
+                cl.number.add(Double.parseDouble(tokens[cl.number.size()]));
+                cl.displayLabel.setText(input + " ");
+            } catch (NumberFormatException e) {
+                return;
+            }
+        }
 
         int index;
         try {
@@ -224,6 +243,7 @@ class MyDigitButton extends JButton implements ActionListener {
 
 ////////////////////////////////////////////////
 
+@SuppressWarnings("serial")
 class MyOperatorButton extends JButton implements ActionListener {
     private MyCalculator cl;
 
@@ -247,6 +267,20 @@ class MyOperatorButton extends JButton implements ActionListener {
 
     public void actionPerformed(ActionEvent ev) {
         String opText = ((MyOperatorButton) ev.getSource()).getText();
+        
+        if (opText.equals("="))
+        {
+        	if (Function.isValidEnum(cl.op, Function.functions.class))
+        	{
+                String input = cl.displayLabel.getText();
+                String[] tokens = input.split("\\s+");
+                cl.number.add(Double.parseDouble(tokens[cl.number.size()]));
+        		Function f = new Function();
+        		double result = f.input(cl.number);
+        		cl.number.clear();
+        		cl.displayLabel.setText(Double.toString(result));
+        	}
+        }
 
         cl.setClear = true;
         double temp = Double.parseDouble(cl.displayLabel.getText());
@@ -271,25 +305,26 @@ class MyOperatorButton extends JButton implements ActionListener {
         }
 
         if (!opText.equals("=")) {
-            cl.number[0] = temp;
+            cl.number.add(temp);
             cl.op = opText;
             return;
         }
 
         // Perform the operation
+        if (cl.number.isEmpty()) return;
         switch (cl.op) {
             case "+":
-                temp += cl.number[0];
+                temp += cl.number.get(0);
                 break;
             case "-":
-                temp = cl.number[0] - temp;
+                temp = cl.number.get(0) - temp;
                 break;
             case "*":
-                temp *= cl.number[0];
+                temp *= cl.number.get(0);
                 break;
             case "%":
                 try {
-                    temp = cl.number[0] % temp;
+                    temp = cl.number.get(0) % temp;
                 } catch (ArithmeticException excp) {
                     cl.displayLabel.setText("Divide by 0.");
                     return;
@@ -297,7 +332,7 @@ class MyOperatorButton extends JButton implements ActionListener {
                 break;
             case "/":
                 try {
-                    temp = cl.number[0] / temp;
+                    temp = cl.number.get(0) / temp;
                 } catch (ArithmeticException excp) {
                     cl.displayLabel.setText("Divide by 0.");
                     return;
@@ -306,11 +341,14 @@ class MyOperatorButton extends JButton implements ActionListener {
         }
 
         cl.displayLabel.setText(MyCalculator.getFormattedText(temp));
+        
+        cl.number.remove(cl.number.size() - 1);
     }
 }
 
 ////////////////////////////////////////////////
 
+@SuppressWarnings("serial")
 class MyMemoryButton extends JButton implements ActionListener {
     private MyCalculator cl;
 
@@ -358,10 +396,10 @@ class MyMemoryButton extends JButton implements ActionListener {
 
 ////////////////////////////////////////////////
 
+@SuppressWarnings("serial")
 class MySpecialButton extends JButton implements ActionListener {
-    private MyCalculator cl;
-    
-    private Layout layoutInfo;
+
+	private MyCalculator cl;
 
     public MySpecialButton(int x, int y, int width, int height, String cap, MyCalculator clc) {
         super(cap);
@@ -394,7 +432,7 @@ class MySpecialButton extends JButton implements ActionListener {
         }
 
         if (opText.equals("C")) {
-            cl.number[0] = 0.0;
+        	cl.number.add(0.0);
             cl.op = " ";
             cl.memValue[0] = 0.0;
             cl.memLabel.setText(" ");
@@ -407,6 +445,7 @@ class MySpecialButton extends JButton implements ActionListener {
 
 ////////////////////////////////////////////////
 
+@SuppressWarnings("serial")
 class MyTranscendButton extends JButton implements ActionListener {
     private MyCalculator cl;
 
@@ -465,9 +504,12 @@ class MyTranscendButton extends JButton implements ActionListener {
 	        case "sinh(x)":
 	            break;
 	        case "x^y":
-	        	System.out.println("Please input data values with a space between each (e.g. 5 1 3)");
-	        	cl.instructLabel.setText("Please input data values with a space between each (e.g. 5 1 3)");
-	        	Function.functionChoice = 8;
+	        	System.out.println("Input data values with a space between each using underscore (e.g. 5_3)");
+	        	cl.instructLabel.setText("Input data values with a space between each using underscore (e.g. 5_3)");
+	        	Function.functionChoice = Function.functions.xy.toString();
+	        	Function.inputNeeded = 2;
+	        	cl.op = Function.functionChoice;
+	        	cl.displayLabel.setText("x^y");
 	            break;
 	
 	        default:
