@@ -1,33 +1,8 @@
-
+import java.io.*;
 public class Function {
-
-	/*
-	 * These functions are for later, when we formalized the data structure of our program
-	 * This Function class will become abstract
-	 * Becoming a blue print for the derived transcendental function class
-	 */
-
-	// take care of input
-	public void input(double[] in) throws IllegalArgumentException {
-	}
-
-	// do the calculation
-	public void calculate() throws ArithmeticException {
-	}
-
-	// toString print out calculation
-	public String toString() {
-		return null;
-	}
-
-	/*
-	 * These are the functions for D2. Feel free to seperate them into their own class.
-	 * If you do so, emember to derived from this Function class
-	 */
-
 	// arccos(x)
 	// Using Newton's method to approximate arccosine
-	public double arccos(double x){
+	public double arccos(double x) {
 		if (x < -1.0 || x > 1.0) {
             throw new IllegalArgumentException("Input value must be between -1 and 1");
         }
@@ -48,8 +23,7 @@ public class Function {
 	}
 
 	// ab^x
-	public double abx(double a, double b, double x)
-	{
+	public double abx(double a, double b, double x) {
 		double bx = 1;
 		double exponent = (x < 0) ? -x : x;
 
@@ -91,79 +65,41 @@ public class Function {
     }
 
 	//log_b(x)
-	public double log(double base, double x)
-	{
-        double lnX = calculateLn(x);
+	public double log(double base, double x) {
+		double lnX = calculateLn(x);
         double lnBase = calculateLn(base);
+
         return lnX / lnBase;
 	}
 
 
 
-	// gamma function using Lanczos Approximation
-	public double gamma(double x)
-	{
-
-		if (x <= 0){
-			throw new IllegalArgumentException("Positive value was expected!");			// Error if input is a non-positive number
+	private static double computeMean(double[] data) {
+		double sum = 0;
+		for (double num : data) {
+			sum += num;
 		}
-
-		if (x < 0.5){
-			return Math.PI / (Math.sin(Math.PI * x) * gamma(1-x));								// Reflection formula for inputs under 0.5 (small values)
-		}
-
-		else {																					// Lanczos Formula for larger inputs
-
-			final double G = 7;					// constant used in Lanczos Formula
-
-		 	final double[] GAMMACOEFFS = {		// coefficients dependent on G needed for approximating gamma function
-				676.5203681218851,
-				-1259.1392167224028,
-				771.32342877765313,
-				-176.61502916214059,
-				12.507343278686905,
-				-0.13857109526572012,
-				9.9843695780195716e-6,
-				1.5056327351493116e-7
-		};
-
-			x -= 1;
-			double a = 0.99999999999980993;							// accumulator variable
-			double t = x + G + 0.5;									// variable to simplify Lanczos Formula manipulation
-
-			for (int i = 0; i < GAMMACOEFFS.length; i++) {
-
-				a += GAMMACOEFFS[i] / (x + i + 1);
-
-			}
-
-			return Math.sqrt(2 * Math.PI) * xy(t, x + 0.5) * Math.exp(-t) * a;					// Lanczos Formula result
-
-		}
-
-
-
+		return sum / data.length;
+	}
+	// Function to compute the absolute value
+	private static double absolute(double value) {
+		return value < 0 ? -value : value;
 	}
 
-	// MAD (Mean Absolute Deviation)
-	public double MAD(double X, double myu, double N) throws ArithmeticException
-	{
-		if (N == 0) throw new ArithmeticException("Sample size is zero!");
+	// Compute the Mean Absolute Deviation (MAD)
+	public double computeMAD(double[] data) {
 
-		double absDeviation = (X - myu < 0) ? myu - X : X - myu;
+		double mean = computeMean(data);
+		double sumAbsoluteDeviations = 0;
+		for (double num : data) {
+			sumAbsoluteDeviations += absolute(num - mean);
+		}
 
-		return (absDeviation) / N;
+		return sumAbsoluteDeviations / data.length;
 	}
-
 
 	// Standard Deviation
-	public double stdDeviation(double[] data)
-
-
-	// (Standard Deviation)
-  // public double stdDeviation()
-
-	{
+	public double stdDeviation(double[] data) {
 		int n = data.length;
 		if(n == 0){
 			throw new IllegalArgumentException("No data was given!");
@@ -187,16 +123,115 @@ public class Function {
         return Math.sqrt(variance);
 	}
 
-
 	// factorial function
 	public long factorial(int x) {
-
 		if (x == 0 || x == 1)					//returns 1 for end of recursion
 			return 1;
 
 		return x * factorial(x - 1);			//recursivly multiplies result by x - 1
 
 	}
+
+	// sinh(x)
+	// Using the definition of hyperbolic sine: sinh(x) = (e^x - e^-x) / 2
+	public double sinh(double x) {
+		double expX = Math.exp(x);
+        double expNegX = Math.exp(-x);
+
+        return (expX - expNegX) / 2.0;
+	}
+
+	// x^y
+	public static double xy(double x, double y) {
+		double exponent = (y < 0) ? -y : y;
+		double result = 1;
+
+		for (int i = 0; i < exponent; i++) {
+			result *= x;
+		}
+
+		return (y < 0) ? 1/result : result;
+	}
+
+	public double gamma(double x)
+    {
+        if (x <= 0){
+            throw new IllegalArgumentException("Positive value was expected!");            // Error if input is a non-positive number
+        }
+        if (x < 0.5){
+            return Math.PI / (Math.sin(Math.PI * x) * gamma(1-x));                                // Reflection formula for inputs under 0.5 (small values)
+        }
+        if (x == (int)x) {
+            return factorial((int)x - 1);
+        }
+        else {                                                                                    // Lanczos Formula for larger inputs
+            final double G = 7;                    // constant used in Lanczos Formula
+            final double[] GAMMACOEFFS = {        // coefficients dependent on G needed for approximating gamma function
+                0.99999999999980993,
+                676.5203681218851,
+                -1259.1392167224028,
+                771.32342877765313,
+                -176.61502916214059,
+                12.507343278686905,
+                -0.13857109526572012,
+                9.9843695780195716e-6,
+                1.5056327351493116e-7
+        };
+
+            x -= 1;
+            double a = GAMMACOEFFS[0];                        // accumulator variable
+            double t = x + G + 0.5;                                    // variable to simplify Lanczos Formula manipulation
+
+            for (int i = 1; i < GAMMACOEFFS.length; i++) {
+                a += GAMMACOEFFS[i] / (x + i);
+            }
+
+            return Math.sqrt(2 * Math.PI) * xy(t, x + 0.5) * Math.exp(-t) * a;                    // Lanczos Formula result
+        }
+    }
+}
+
+
+
+class Commented{
+// // gamma function using Lanczos Approximation
+	// public double gamma(double x)
+	// {
+	// 	if (x <= 0){
+	// 		throw new IllegalArgumentException("Positive value was expected!");			// Error if input is a non-positive number
+	// 	}
+	// 	if (x < 0.5){
+	// 		return Math.PI / (Math.sin(Math.PI * x) * gamma(1-x));								// Reflection formula for inputs under 0.5 (small values)
+	// 	}
+	// 	else {																					// Lanczos Formula for larger inputs
+
+	// 		final double G = 7;					// constant used in Lanczos Formula
+
+	// 	 	final double[] GAMMACOEFFS = {		// coefficients dependent on G needed for approximating gamma function
+	// 			676.5203681218851,
+	// 			-1259.1392167224028,
+	// 			771.32342877765313,
+	// 			-176.61502916214059,
+	// 			12.507343278686905,
+	// 			-0.13857109526572012,
+	// 			9.9843695780195716e-6,
+	// 			1.5056327351493116e-7
+	// 	};
+
+	// 		x -= 1;
+	// 		double a = 0.99999999999980993;							// accumulator variable
+	// 		double t = x + G + 0.5;									// variable to simplify Lanczos Formula manipulation
+
+	// 		for (int i = 0; i < GAMMACOEFFS.length; i++) {
+
+	// 			a += GAMMACOEFFS[i] / (x + i + 1);
+
+	// 		}
+
+	// 		return Math.sqrt(2 * Math.PI) * xy(t, x + 0.5) * Math.exp(-t) * a;					// Lanczos Formula result
+	// 	}
+	// }
+
 
 /* 	// sin(x) function
 	public double sin(double x) {
@@ -221,29 +256,50 @@ public class Function {
 
 	}*/
 
+	// // MAD (Mean Absolute Deviation)
+	// public double MAD(double X, double myu, double N) throws ArithmeticException {
+	// 	start_time();
+	// 	if (N == 0) throw new ArithmeticException("Sample size is zero!");
 
-	// sinh(x)
-	// Using the definition of hyperbolic sine: sinh(x) = (e^x - e^-x) / 2
-	public double sinh(double x){
-		double expX = Math.exp(x);
-        double expNegX = Math.exp(-x);
-        return (expX - expNegX) / 2.0;
-	}
+	// 	double absDeviation = (X - myu < 0) ? myu - X : X - myu;
 
-	// x^y
-	double xy(double x, double y)
-	{
-		double exponent = (y < 0) ? -y : y;
-		double result = 1;
+	// 	end_time();
+	// 	write_Time(calculate_runtime(start_time(),end_time()));
+	// 	return (absDeviation) / N;
+	// }
 
-		for (int i = 0; i < exponent; i++) {
-			result *= x;
-		}
+	// DRIVER CODE THAT GOES WITH THIS CODE HERE:
+	// System.out.println("Please input value of X");
+    //             	    double X = input.nextDouble();
+    //                 System.out.println("Please input value of myu");
+    //                     double myu = input.nextDouble();
+    //                 System.out.println("Please input value of N");
+    //                     double N = input.nextDouble();
+    //                 if(N ==0){
+    //                     System.out.println("The value should be a value different than 0.");
+    //                     break;
+    //                 }
+    //             	System.out.println(f.MAD(X, myu, N));
 
-		return (y < 0) ? 1/result : result;
-	}
 
-	public static int modulo(int a, int b){
-		return a % b;
-	}
+
+
+	// public double gamma2(double n) {
+    //     if (n <= 0) {
+    //         throw new IllegalArgumentException("Gamma function is not defined for non-positive values.");
+    //     }
+
+    //     double result = 0.0;
+    //     double step = 0.001; // Step size for numerical integration
+    //     for (double t = 0; t < 100; t += step) {
+    //         result += xy(t, n - 1) * Math.exp(-t) * step;
+    //     }
+
+    //     return result;
+    // }
+
+
+
+
+
 }
