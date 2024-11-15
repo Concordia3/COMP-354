@@ -42,7 +42,7 @@ public class MyCalculator extends JFrame {
 
     // Labels for display and memory
     JLabel displayLabel = new JLabel("0", JLabel.RIGHT);
-    JLabel instructLabel = new JLabel(":^)", JLabel.RIGHT);
+    JLabel instructLabel = new JLabel(" :^)  ", JLabel.RIGHT);
     JLabel memLabel = new JLabel(" ", JLabel.RIGHT);
 
     // Constants for layout
@@ -520,6 +520,9 @@ class MyTranscendButton extends JButton implements ActionListener {
 	            System.err.println("Transcendental function does not exist!");
 	            break;
         }
+        
+        
+        cl.setClear = true;
     }
 }
 
