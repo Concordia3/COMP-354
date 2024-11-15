@@ -1,5 +1,7 @@
 import java.util.Scanner;
 import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Driver {
 
@@ -142,8 +144,18 @@ public class Driver {
 
     // file writing
 	private static void write_Time(double runtime){
-		String desktopPath = System.getProperty("user.home") + "/Desktop";
+		String desktopPath = System.getProperty("user.home") + "/Desktop/CALCULATOR/";
 		String filePath = desktopPath + "/Calculator_Runtime.txt";
+		
+    	try {
+			// Create path to check if directory tree exists
+			Path path = Paths.get(filePath);
+			File file = path.getParent().toFile();
+			if (!file.exists()) file.mkdirs();
+		} catch (Exception e) {
+			System.err.println("Error creating dir: " + filePath);
+			e.printStackTrace();
+		}
 
 		try (FileWriter writer = new FileWriter(filePath, true)) {
             // Write some content to the file
