@@ -148,12 +148,13 @@ public class Function {
 	public double gamma(double x)
 	{
 
-		if (x <= 0){
-			throw new IllegalArgumentException("Positive value was expected!");			// Error if input is a non-positive number
-		}
-
 		if (x < 0.5){
-			return Math.PI / (Math.sin(Math.PI * x) * gamma(1-x));								// Reflection formula for inputs under 0.5 (small values)
+
+			if (x == (int)x) {
+				throw new IllegalArgumentException("Negative integers are undefined");	// All negative integers are undefined for gamma function
+			}
+
+			return Math.PI / (Math.sin(Math.PI * x) * gamma(1-x));						// Reflection formula for inputs under 0.5 (including negative values)
 		}
 
 		if (x == (int)x) {

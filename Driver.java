@@ -46,7 +46,7 @@ public class Driver {
                 	System.out.println(f.log(b_3, x_3));
                     break;
                 case 4:
-                    System.out.println("Please input a positive value");
+                    System.out.println("Please input a value");
                     double gam = input.nextDouble();
                     System.out.println(f.gamma(gam));
                     break;
