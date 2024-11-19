@@ -1,32 +1,57 @@
 
+/**
+ * 
+ * The Function aspect of the Eternity calculator
+ * 
+ * @author Cyrus Stonebanks
+ * @author Tristan Szittner-Francis
+ * @author Nick Taddio
+ * @author Hy Khang Tran
+ * @author Jeremy Tang
+ * @author Minh Thien Tran
+ * @author Minghe Sun
+ */
+
 public class Function {
 
-	/*
+	/**
 	 * These functions are for later, when we formalized the data structure of our program
 	 * This Function class will become abstract
 	 * Becoming a blue print for the derived transcendental function class
 	 */
 
-	// take care of input
+	/**
+	 * takes care of input
+	 * @param in 
+	 * @throws IllegalArgumentException 
+	 */
 	public void input(double[] in) throws IllegalArgumentException {
 	}
 
-	// do the calculation
+	/**
+	 * Performs the calculation
+	 * @throws ArithmeticException
+	 */
 	public void calculate() throws ArithmeticException {
 	}
 
-	// toString print out calculation
+	/**
+	 *  toString print out calculation
+	 */
 	public String toString() {
 		return null;
 	}
 
-	/*
+	/**
 	 * These are the functions for D2. Feel free to seperate them into their own class.
 	 * If you do so, emember to derived from this Function class
 	 */
 
-	// arccos(x)
-	// Using Newton's method to approximate arccosine
+	/**
+	 * arccos(x) Using Newton's method to approximate arccosine
+	 * @param x value within [-1,1]
+	 * @return result
+	 */
 	public double arccos(double x){
 		if (x < -1.0 || x > 1.0) {
             throw new IllegalArgumentException("Input value must be between -1 and 1");
@@ -47,7 +72,13 @@ public class Function {
         return guess;
 	}
 
-	// ab^x
+	/**
+	 * ab^x The exponential function
+	 * @param a constant value
+	 * @param b base value
+	 * @param x	exponent value
+	 * @return result
+	 */
 	public double abx(double a, double b, double x)
 	{
 		double bx = 1;
@@ -61,6 +92,13 @@ public class Function {
 
 		return a*bx;
 	}
+
+
+    /**
+     *  Method to calculate ln(x) using a Taylor series
+     * @param x positive value
+     * @return result
+     */
 
 	public double abx_2(double a, double b, double x) {
 		double result = a * power(b, x);
@@ -103,6 +141,7 @@ public class Function {
 	}
 
     // Method to calculate ln(x) using a Taylor series
+
     public static double calculateLn(double x) {
         if (x <= 0) {
             throw new IllegalArgumentException("x must be positive.");
@@ -130,7 +169,12 @@ public class Function {
         return result;
     }
 
-	//log_b(x)
+	/**
+	 * log_b(x)
+	 * @param base , the base value
+	 * @param x	, the number value
+	 * @return result
+	 */
 	public double log(double base, double x)
 	{
         double lnX = calculateLn(x);
@@ -140,16 +184,27 @@ public class Function {
 
 
 
-	// gamma function using Lanczos Approximation
+	/**
+	 * Gamma function using Lanczos Approximation
+	 * @param x input value, positive values only
+	 * @return result
+	 */
 	public double gamma(double x)
 	{
 
-		if (x <= 0){
-			throw new IllegalArgumentException("Positive value was expected!");			// Error if input is a non-positive number
+		if (x < 0.5){
+
+			if (x == (int)x) {
+				throw new IllegalArgumentException("Negative integers are undefined");	// All negative integers are undefined for gamma function
+			}
+
+			return Math.PI / (Math.sin(Math.PI * x) * gamma(1-x));						// Reflection formula for inputs under 0.5 (including negative values)
 		}
 
-		if (x < 0.5){
-			return Math.PI / (Math.sin(Math.PI * x) * gamma(1-x));								// Reflection formula for inputs under 0.5 (small values)
+		if (x == (int)x) {
+
+			return factorial((int)x - 1);
+
 		}
 
 		else {																					// Lanczos Formula for larger inputs
@@ -157,6 +212,7 @@ public class Function {
 			final double G = 7;					// constant used in Lanczos Formula
 
 		 	final double[] GAMMACOEFFS = {		// coefficients dependent on G needed for approximating gamma function
+				0.99999999999980993,
 				676.5203681218851,
 				-1259.1392167224028,
 				771.32342877765313,
@@ -168,12 +224,12 @@ public class Function {
 		};
 
 			x -= 1;
-			double a = 0.99999999999980993;							// accumulator variable
+			double a = GAMMACOEFFS[0];						// accumulator variable
 			double t = x + G + 0.5;									// variable to simplify Lanczos Formula manipulation
 
-			for (int i = 0; i < GAMMACOEFFS.length; i++) {
+			for (int i = 1; i < GAMMACOEFFS.length; i++) {
 
-				a += GAMMACOEFFS[i] / (x + i + 1);
+				a += GAMMACOEFFS[i] / (x + i);
 
 			}
 
@@ -185,7 +241,14 @@ public class Function {
 
 	}
 
-	// MAD (Mean Absolute Deviation)
+	/**
+	 *  MAD (Mean Absolute Deviation)
+	 * @param X
+	 * @param myu
+	 * @param N
+	 * @return
+	 * @throws ArithmeticException
+	 */
 	public double MAD(double X, double myu, double N) throws ArithmeticException
 	{
 		if (N == 0) throw new ArithmeticException("Sample size is zero!");
@@ -196,7 +259,11 @@ public class Function {
 	}
 
 
-	// Standard Deviation
+	/**
+	 *  Standard Deviation
+	 * @param data input value
+	 * @return result
+	 */
 	public double stdDeviation(double[] data)
 
 
@@ -228,7 +295,11 @@ public class Function {
 	}
 
 
-	// factorial function
+	/**
+	 * factorial function using recursion
+	 * @param x input value
+	 * @return result
+	 */
 	public long factorial(int x) {
 
 		if (x == 0 || x == 1)					//returns 1 for end of recursion
@@ -260,17 +331,24 @@ public class Function {
 		return result;
 
 	}*/
-
-
-	// sinh(x)
-	// Using the definition of hyperbolic sine: sinh(x) = (e^x - e^-x) / 2
+ 
+	/**
+	 * sinh(x) Using the definition of hyperbolic sine: sinh(x) = (e^x - e^-x) / 2
+	 * @param x input value
+	 * @return result
+	 */
 	public double sinh(double x){
 		double expX = Math.exp(x);
         double expNegX = Math.exp(-x);
         return (expX - expNegX) / 2.0;
 	}
 
-	// x^y
+	/**
+	 * x^y exponent function
+	 * @param x base value
+	 * @param y exponent value
+	 * @return result
+	 */
 	double xy(double x, double y)
 	{
 		double exponent = (y < 0) ? -y : y;
@@ -283,6 +361,13 @@ public class Function {
 		return (y < 0) ? 1/result : result;
 	}
 
+	
+	/**
+	 * modulus function
+	 * @param a dividen value
+	 * @param b divisor value
+	 * @return result
+	 */
 	public static int modulo(int a, int b){
 		return a % b;
 	}
