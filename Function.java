@@ -93,11 +93,55 @@ public class Function {
 		return a*bx;
 	}
 
+
     /**
      *  Method to calculate ln(x) using a Taylor series
      * @param x positive value
      * @return result
      */
+
+	public double abx_2(double a, double b, double x) {
+		double result = a * power(b, x);
+		return result;
+	}
+
+	public static double power(double base, double exponent) {
+		double powerResult = 1;
+		if (exponent > 0 && (int) exponent == exponent) { // Check if the exponent is a positive whole number
+			for (int i = 0; i < exponent; i++) {
+				powerResult *= base;
+			}
+		} else if (exponent < 0 && (int) exponent == exponent) { // Check if the exponent is a negative whole number
+			for (int i = 0; i > exponent; i--) {
+				powerResult *= base;
+			}
+			powerResult = 1 / powerResult;
+		} else if (exponent > 0 && (int) exponent != exponent) { // Check if the exponent is a positive fractional
+																	// number
+			powerResult = exp(exponent * calculateLn(base));
+
+		} else if (exponent < 0 && (int) exponent != exponent) { // Check if the exponent is a negative fractional
+																	// number
+			powerResult = 1 / exp(-exponent * calculateLn(base));
+		}
+		return powerResult;
+	}
+		
+	public static double exp(double x) { // exp(x)
+		double result = 1.0; // first term
+		double term = 1.0; // for each iteration, term = term * x / i
+		int n = 40; // maximum number of iterations
+
+		for (int i = 1; i <= n; i++) {
+			term *= x / i;
+			result += term;
+		}
+
+		return result;
+	}
+
+    // Method to calculate ln(x) using a Taylor series
+
     public static double calculateLn(double x) {
         if (x <= 0) {
             throw new IllegalArgumentException("x must be positive.");
