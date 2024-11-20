@@ -3,6 +3,19 @@ import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ *
+ * Main Driver for the Eternity Calculator
+ *
+ * @author Cyrus Stonebanks
+ * @author Tristan Szittner-Francis
+ * @author Nick Taddio
+ * @author Hy Khang Tran
+ * @author Jeremy Tang
+ * @author Minh Thien Tran
+ * @author Minghe Sun
+ */
+
 public class Driver {
 
     public static void main(String[] args) {
@@ -66,14 +79,10 @@ public class Driver {
                     break;
 
                 case 4:
-                    System.out.println("Please enter a value for 'x'");
-                        x = input.nextDouble();
-                    if (x >= 22.999999999999999){
-                        System.out.println("The value is too large, it will cause a bit overflow and the value will be wrong");
-                        break;
-                    }
+                    System.out.println("Please input a value");
+                    double gam = input.nextDouble();
                     start_time();
-                    System.out.println(f.gamma(x));
+                    System.out.println(f.gamma(gam));
                     end_time();
                     write_Time(calculate_runtime(start_time(), end_time()));
                     break;
@@ -146,7 +155,7 @@ public class Driver {
 	private static void write_Time(double runtime){
 		String desktopPath = System.getProperty("user.home") + "/Desktop/CALCULATOR/";
 		String filePath = desktopPath + "/Calculator_Runtime.txt";
-		
+
     	try {
 			// Create path to check if directory tree exists
 			Path path = Paths.get(filePath);
