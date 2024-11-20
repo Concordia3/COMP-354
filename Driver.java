@@ -97,7 +97,7 @@ public class Driver {
                         data[i] = Double.parseDouble(dataStrArray[i]);
                     }
                     start_time();
-                    System.out.println(f.computeMAD(data));
+                    System.out.println(f.MAD(data));
                     end_time();
                     write_Time(calculate_runtime(start_time(), end_time()));
                     break;

@@ -262,9 +262,9 @@ public class Function {
 	 * @return
 	 * @throws ArithmeticException
 	 */
-	public double MAD(double X, double myu, double N) throws ArithmeticException
+	public double MAD(double data[]) throws ArithmeticException
 	{
-		if (N == 0) throw new ArithmeticException("Sample size is zero!");
+		if (data.length == 0) throw new ArithmeticException("Sample size is zero!");
 
 		double mean = computeMean(data);
 		double sumAbsoluteDeviations = 0;
