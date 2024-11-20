@@ -1,8 +1,7 @@
-
 /**
- * 
+ *
  * The Function aspect of the Eternity calculator
- * 
+ *
  * @author Cyrus Stonebanks
  * @author Tristan Szittner-Francis
  * @author Nick Taddio
@@ -22,8 +21,8 @@ public class Function {
 
 	/**
 	 * takes care of input
-	 * @param in 
-	 * @throws IllegalArgumentException 
+	 * @param in
+	 * @throws IllegalArgumentException
 	 */
 	public void input(double[] in) throws IllegalArgumentException {
 	}
@@ -126,7 +125,7 @@ public class Function {
 		}
 		return powerResult;
 	}
-		
+
 	public static double exp(double x) { // exp(x)
 		double result = 1.0; // first term
 		double term = 1.0; // for each iteration, term = term * x / i
@@ -179,9 +178,23 @@ public class Function {
 	{
         double lnX = calculateLn(x);
         double lnBase = calculateLn(base);
+
         return lnX / lnBase;
 	}
 
+
+
+	private static double computeMean(double[] data) {
+		double sum = 0;
+		for (double num : data) {
+			sum += num;
+		}
+		return sum / data.length;
+	}
+	// Function to compute the absolute value
+	private static double absolute(double value) {
+		return value < 0 ? -value : value;
+	}
 
 
 	/**
@@ -249,13 +262,17 @@ public class Function {
 	 * @return
 	 * @throws ArithmeticException
 	 */
-	public double MAD(double X, double myu, double N) throws ArithmeticException
+	public double MAD(double data[]) throws ArithmeticException
 	{
-		if (N == 0) throw new ArithmeticException("Sample size is zero!");
+		if (data.length == 0) throw new ArithmeticException("Sample size is zero!");
 
-		double absDeviation = (X - myu < 0) ? myu - X : X - myu;
+		double mean = computeMean(data);
+		double sumAbsoluteDeviations = 0;
+		for (double num : data) {
+			sumAbsoluteDeviations += absolute(num - mean);
+		}
 
-		return (absDeviation) / N;
+		return sumAbsoluteDeviations / data.length;
 	}
 
 
@@ -301,7 +318,6 @@ public class Function {
 	 * @return result
 	 */
 	public long factorial(int x) {
-
 		if (x == 0 || x == 1)					//returns 1 for end of recursion
 			return 1;
 
@@ -309,29 +325,6 @@ public class Function {
 
 	}
 
-/* 	// sin(x) function
-	public double sin(double x) {
-
-		x = x % (2 * Math.PI);
-
-		double result = 0.0;
-
-		for (int i = 0; i < 10; i++) {
-
-			int exponent = 2 * i + 1;
-			double term = xy(x, exponent) / factorial(exponent);
-
-			if (i % 2 != 0)
-				term = -term;
-
-			result += term;
-
-		}
-
-		return result;
-
-	}*/
- 
 	/**
 	 * sinh(x) Using the definition of hyperbolic sine: sinh(x) = (e^x - e^-x) / 2
 	 * @param x input value
@@ -352,6 +345,7 @@ public class Function {
 	double xy(double x, double y)
 	{
 		double exponent = (y < 0) ? -y : y;
+
 		double result = 1;
 
 		for (int i = 0; i < exponent; i++) {
@@ -361,7 +355,6 @@ public class Function {
 		return (y < 0) ? 1/result : result;
 	}
 
-	
 	/**
 	 * modulus function
 	 * @param a dividen value
