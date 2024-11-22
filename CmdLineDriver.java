@@ -6,11 +6,10 @@ import java.nio.file.Paths;
 
 // User libraries
 import Functions.Function;
-import Calculator.*;
 
 /**
  *
- * Main Driver for the Eternity Calculator
+ * Main Cmd Line Driver for the Eternity Calculator
  *
  * @author Cyrus Stonebanks
  * @author Tristan Szittner-Francis
@@ -20,8 +19,7 @@ import Calculator.*;
  * @author Minh Thien Tran
  * @author Minghe Sun
  */
-
-public class Driver {
+public class CmdLineDriver {
 
     public static void main(String[] args) {
 

@@ -24,7 +24,7 @@ public class MyCalculator extends JFrame {
     boolean setClear = true;
     ArrayList<Double> number = new ArrayList<Double>(10);
     double memValue[] = new double[10];
-    String op;
+	public String input="", op="";
 
     // Button text arrays
     String digitButtonText[] = {"7", "8", "9", "4", "5", "6", "1", "2", "3", "0", ".", "_"};
@@ -136,18 +136,10 @@ public class MyCalculator extends JFrame {
                 y += HEIGHT + V_SPACE;
             }
         }
-        
-        // Draw
-        draw();
 
         // Show the window
         setVisible(true);
     }
-    
-	private static void draw() {
-		// TODO Use this to set button position
-		
-	}
 
     public static String getFormattedText(double temp) {
         String resText = "" + temp;
@@ -161,9 +153,12 @@ public class MyCalculator extends JFrame {
 
 		return 15;
 	}
-
-    public static void main(String[] args) {
-        new MyCalculator("Eternity");
+    
+    public void reset() {
+		number.clear();
+		setClear = true;
+		op = "";
+		input = "";
     }
 }
 
@@ -200,38 +195,39 @@ class MyDigitButton extends JButton implements ActionListener {
 
     public void actionPerformed(ActionEvent ev) {
         String tempText = ((MyDigitButton) ev.getSource()).getText();
-
-        if (tempText.equals(".")) {
-            if (cl.setClear) {
-                cl.displayLabel.setText("0.");
-                cl.setClear = false;
-            } else if (!isInString(cl.displayLabel.getText(), '.')) {
-                cl.displayLabel.setText(cl.displayLabel.getText() + ".");
-            }
-            return;
-        }
         
-        if (tempText.equals("_"))
-        {
-            try {
-                String input = cl.displayLabel.getText();
-                String[] tokens = input.split("\\s+");
-                cl.number.add(Double.parseDouble(tokens[cl.number.size()]));
-                cl.displayLabel.setText(input + " ");
-            } catch (NumberFormatException e) {
-                return;
-            }
-        }
-
         int index;
         try {
             index = Integer.parseInt(tempText);
-        } catch (NumberFormatException e) {
-            return;
+            
+            cl.input += index;
+        } 
+        catch (NumberFormatException e) {
+            if (tempText.equals(".")) {
+            	cl.input += tempText;
+            	
+            	cl.displayLabel.setText(cl.input);
+                return;
+            }
+            
+            if (tempText.equals("_"))
+            {
+                try {
+                    cl.number.add(Double.parseDouble(cl.input));
+                    cl.displayLabel.setText(cl.displayLabel.getText() + " ");
+                } 
+                catch (NumberFormatException e1) {
+                    return;
+                }
+                finally {
+					cl.input = "";
+				}
+            } 
+        	
+        	return;
         }
 
-        if (index == 0 && cl.displayLabel.getText().equals("0")) return;
-
+        // update display label
         if (cl.setClear) {
             cl.displayLabel.setText("" + index);
             cl.setClear = false;
@@ -266,8 +262,12 @@ class MyOperatorButton extends JButton implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent ev) {
+    	// End digit input
+    	cl.input = "";
+    	
         String opText = ((MyOperatorButton) ev.getSource()).getText();
         
+        // Functions
         if (opText.equals("="))
         {
         	if (Function.isValidEnum(cl.op, Function.functions.class))
@@ -276,13 +276,19 @@ class MyOperatorButton extends JButton implements ActionListener {
                 String[] tokens = input.split("\\s+");
                 cl.number.add(Double.parseDouble(tokens[cl.number.size()]));
         		Function f = new Function();
-        		double result = f.input(cl.number);
-        		cl.number.clear();
+        		double result = 0;
+				try {
+					result = f.input(cl.number);
+				} catch (Exception e) {
+					cl.instructLabel.setText(e.toString());
+					e.printStackTrace();
+				}
+        		
         		cl.displayLabel.setText(Double.toString(result));
+        		cl.reset();
         	}
         }
 
-        cl.setClear = true;
         double temp = Double.parseDouble(cl.displayLabel.getText());
 
         if (opText.equals("1/x")) {
@@ -307,6 +313,7 @@ class MyOperatorButton extends JButton implements ActionListener {
         if (!opText.equals("=")) {
             cl.number.add(temp);
             cl.op = opText;
+            cl.setClear = true;
             return;
         }
 
@@ -428,17 +435,20 @@ class MySpecialButton extends JButton implements ActionListener {
 
         if (opText.equals("Backspc")) {
             cl.displayLabel.setText(backSpace(cl.displayLabel.getText()));
+            cl.input = cl.input.length() > 1 ? cl.input.substring(0, cl.input.length() - 1) : "0";
             return;
         }
 
         if (opText.equals("C")) {
         	cl.number.add(0.0);
-            cl.op = " ";
+            cl.op = "";
+            cl.input = "";
             cl.memValue[0] = 0.0;
             cl.memLabel.setText(" ");
         } else if (opText.equals("CE")) {
             cl.displayLabel.setText("0");
             cl.setClear = true;
+            cl.reset();
         }
     }
 }
@@ -467,63 +477,95 @@ class MyTranscendButton extends JButton implements ActionListener {
         addActionListener(this);
     }
 
-    public void actionPerformed(ActionEvent ev) {
-    	String transText = ((MyTranscendButton) ev.getSource()).getText();
-
-    	/*
-    	 * TODO: Set your function parameters here
-    	 * 1. Set the calculator instruction text (bottom text box)
-    	 * 2. Set the Function class which function is currently in progress
-    	 * 3. Set how many input needed (Khang removed this requirement for StdDeviation so only that can have inf input)
-    	 * 4. Set the calculator's function choice to reflect the Function class settings (By default is already set)
-    	 * 5. Set the calculator display text (top text box)
-    	 */
-        switch (transText) {
+    @Override
+	public void actionPerformed(ActionEvent ev) {
+	    String transText = ((MyTranscendButton) ev.getSource()).getText();
+	
+	    /*
+	     * 1. Set the calculator instruction text (bottom text box)
+	     * 2. Set the Function class which function is currently in progress
+	     * 3. Set how many input needed (Khang removed this requirement for StdDeviation so only that can have inf input)
+	     * 4. Set the calculator's function choice to reflect the Function class settings (By default is already set)
+	     * 5. Set the calculator display text (top text box)
+	     */
+	    switch (transText) {
 	        case "arccos(x)":
+	            // 1. Set the instruction text
+	            cl.instructLabel.setText("Input a single value x for arccos(x).");
+	            // 2. Set the Function class function in progress
+	            Function.functionChoice = Function.functions.arccos.toString();
+	            // 3. Set how many input values are needed
+	            Function.inputNeeded = 1;
+	            // 4. Set the calculator's function choice
+	            cl.op = Function.functionChoice;
+	            // 5. Set the calculator display text
+	            cl.displayLabel.setText("arccos(x)");
 	            break;
+	
 	        case "ab^x":
+	            cl.instructLabel.setText("Input base a and exponent b, separated by an underscore (e.g., 2_3).");
+	            Function.functionChoice = Function.functions.abx.toString();
+	            Function.inputNeeded = 2;
+	            cl.op = Function.functionChoice;
+	            cl.displayLabel.setText("ab^x");
 	            break;
+	
 	        case "log_b(x)":
-	        	// 1. Set the calculator instruction text (bottom text box)
-	        	cl.instructLabel.setText("Input the base and value x with a space between using underscore (e.g. 5_3)");
-	        	// 2. Set the Function class which function is currently in progress
-	        	Function.functionChoice = Function.functions.log_b.toString();
-	        	// 3. Set how many input needed
-	        	Function.inputNeeded = 2;
-	        	// 4. Set the calculator's function choice to reflect the Function class settings
-	        	cl.op = Function.functionChoice;
-	        	// 5. Set the calculator display text (top text box)
-	        	cl.displayLabel.setText("log_b(x)");
+	            cl.instructLabel.setText("Input the base and value x with a space between using underscore (e.g., 5_3).");
+	            Function.functionChoice = Function.functions.log_b.toString();
+	            Function.inputNeeded = 2;
+	            cl.op = Function.functionChoice;
+	            cl.displayLabel.setText("log_b(x)");
 	            break;
+	
 	        case "gamma":
+	            cl.instructLabel.setText("Input a single value x for Gamma function calculation.");
+	            Function.functionChoice = Function.functions.gamma.toString();
+	            Function.inputNeeded = 1;
+	            cl.op = Function.functionChoice;
+	            cl.displayLabel.setText("gamma(x)");
 	            break;
+	
 	        case "MAD":
+	            cl.instructLabel.setText("Input a list of values separated by underscores (e.g., 1_2_3).");
+	            Function.functionChoice = Function.functions.MAD.toString();
+	            Function.inputNeeded = Integer.MAX_VALUE; // Allows multiple inputs
+	            cl.op = Function.functionChoice;
+	            cl.displayLabel.setText("MAD");
 	            break;
+	
 	        case "Std Deviation":
+	            cl.instructLabel.setText("Input a list of values separated by underscores (e.g., 1_2_3).");
+	            Function.functionChoice = Function.functions.StdDeviation.toString();
+	            Function.inputNeeded = Integer.MAX_VALUE; // Allows multiple inputs
+	            cl.op = Function.functionChoice;
+	            cl.displayLabel.setText("Std Dev");
 	            break;
+	
 	        case "sinh(x)":
+	            cl.instructLabel.setText("Input a single value x for sinh(x).");
+	            Function.functionChoice = Function.functions.sinh.toString();
+	            Function.inputNeeded = 1;
+	            cl.op = Function.functionChoice;
+	            cl.displayLabel.setText("sinh(x)");
 	            break;
+	
 	        case "x^y":
-	        	// 1. Set the calculator instruction text (bottom text box)
-	        	cl.instructLabel.setText("Input 2 values with a space between each using underscore (e.g. 5_3)");
-	        	// 2. Set the Function class which function is currently in progress
-	        	Function.functionChoice = Function.functions.xy.toString();
-	        	// 3. Set how many input needed
-	        	Function.inputNeeded = 2;
-	        	// 4. Set the calculator's function choice to reflect the Function class settings
-	        	cl.op = Function.functionChoice;
-	        	// 5. Set the calculator display text (top text box)
-	        	cl.displayLabel.setText("x^y");
+	            cl.instructLabel.setText("Input 2 values with a space between each using underscore (e.g., 5_3).");
+	            Function.functionChoice = Function.functions.xy.toString();
+	            Function.inputNeeded = 2;
+	            cl.op = Function.functionChoice;
+	            cl.displayLabel.setText("x^y");
 	            break;
 	
 	        default:
 	            System.err.println("Transcendental function does not exist!");
 	            break;
-        }
-        
-        
-        cl.setClear = true;
+	    }
+	
+	    cl.setClear = true;
     }
+
 }
 
 ////////////////////////////////////////////////
