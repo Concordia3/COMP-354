@@ -1,10 +1,22 @@
 package Functions;
 
 import java.util.ArrayList;
+/**
+ *
+ * The Function aspect of the Eternity calculator
+ *
+ * @author Cyrus Stonebanks
+ * @author Tristan Szittner-Francis
+ * @author Nick Taddio
+ * @author Hy Khang Tran
+ * @author Jeremy Tang
+ * @author Minh Thien Tran
+ * @author Minghe Sun
+ */
 
 public class Function {
 
-	/*
+	/**
 	 * These functions are for later, when we formalized the data structure of our program
 	 * This Function class will become abstract
 	 * Becoming a blue print for the derived transcendental function class
@@ -28,7 +40,11 @@ public class Function {
 	public static int inputNeeded = -1;
 	public static String functionChoice = "Null";
 
-	// take care of input
+	/**
+	 * takes care of input
+	 * @param in
+	 * @throws IllegalArgumentException
+	 */
 	public double input(ArrayList<Double> number) throws IllegalArgumentException {
 		
 		if (inputNeeded == -1 || functionChoice.equals("Null")) {
@@ -73,22 +89,30 @@ public class Function {
 		return result;
 	}
 
-	// do the calculation
+	/**
+	 * Performs the calculation
+	 * @throws ArithmeticException
+	 */
 	public void calculate() throws ArithmeticException {
 	}
 
-	// toString print out calculation
+	/**
+	 *  toString print out calculation
+	 */
 	public String toString() {
 		return null;
 	}
 
-	/*
+	/**
 	 * These are the functions for D2. Feel free to seperate them into their own class.
 	 * If you do so, remember to derived from this Function class
 	 */
 
-	// arccos(x)
-	// Using Newton's method to approximate arccosine
+	/**
+	 * arccos(x) Using Newton's method to approximate arccosine
+	 * @param x value within [-1,1]
+	 * @return result
+	 */
 	public double arccos(double x){
 		if (x < -1.0 || x > 1.0) {
             throw new IllegalArgumentException("Input value must be between -1 and 1");
@@ -109,7 +133,13 @@ public class Function {
         return guess;
 	}
 
-	// ab^x
+	/**
+	 * ab^x The exponential function
+	 * @param a constant value
+	 * @param b base value
+	 * @param x	exponent value
+	 * @return result
+	 */
 	public double abx(double a, double b, double x)
 	{
 		double bx = 1;
@@ -123,19 +153,67 @@ public class Function {
 
 		return a*bx;
 	}
-	
+
+
+    /**
+     *  Method to calculate ln(x) using a Taylor series
+     * @param x positive value
+     * @return result
+     */
+
+	public double abx_2(double a, double b, double x) {
+		double result = a * power(b, x);
+		return result;
+	}
+
+	public static double power(double base, double exponent) {
+		double powerResult = 1;
+		if (exponent > 0 && (int) exponent == exponent) { // Check if the exponent is a positive whole number
+			for (int i = 0; i < exponent; i++) {
+				powerResult *= base;
+			}
+		} else if (exponent < 0 && (int) exponent == exponent) { // Check if the exponent is a negative whole number
+			for (int i = 0; i > exponent; i--) {
+				powerResult *= base;
+			}
+			powerResult = 1 / powerResult;
+		} else if (exponent > 0 && (int) exponent != exponent) { // Check if the exponent is a positive fractional
+																	// number
+			powerResult = exp(exponent * calculateLn(base));
+
+		} else if (exponent < 0 && (int) exponent != exponent) { // Check if the exponent is a negative fractional
+																	// number
+			powerResult = 1 / exp(-exponent * calculateLn(base));
+		}
+		return powerResult;
+	}
+
+	public static double exp(double x) { // exp(x)
+		double result = 1.0; // first term
+		double term = 1.0; // for each iteration, term = term * x / i
+		int n = 40; // maximum number of iterations
+
+		for (int i = 1; i <= n; i++) {
+			term *= x / i;
+			result += term;
+		}
+
+		return result;
+	}
+
     // Method to calculate ln(x) using a Taylor series
+
     public static double calculateLn(double x) {
         if (x <= 0) {
             throw new IllegalArgumentException("x must be positive.");
         }
-        
+
         // Transform x to be close to 1 for faster convergence
         int k = 0;
         while (x > 2) {
             x /= 2;
             k++;
-        }        
+        }
         x = (x - 1) / (x + 1);
         double result = 0.0;
         double term = x;
@@ -151,34 +229,65 @@ public class Function {
 
         return result;
     }
-	
-	//log_b(x)
+
+	/**
+	 * log_b(x)
+	 * @param base , the base value
+	 * @param x	, the number value
+	 * @return result
+	 */
 	public double log(double base, double x)
 	{
         double lnX = calculateLn(x);
         double lnBase = calculateLn(base);
+
         return lnX / lnBase;
 	}
-	
 
 
-	// gamma function using Lanczos Approximation
+
+	private static double computeMean(double[] data) {
+		double sum = 0;
+		for (double num : data) {
+			sum += num;
+		}
+		return sum / data.length;
+	}
+	// Function to compute the absolute value
+	private static double absolute(double value) {
+		return value < 0 ? -value : value;
+	}
+
+
+	/**
+	 * Gamma function using Lanczos Approximation
+	 * @param x input value, positive values only
+	 * @return result
+	 */
 	public double gamma(double x)
 	{
 
-		if (x <= 0){
-			throw new IllegalArgumentException("Positive value was expected!");			// Error if input is a non-positive number
-		}
-			
 		if (x < 0.5){
-			return Math.PI / (Math.sin(Math.PI * x) * gamma(1-x));								// Reflection formula for inputs under 0.5 (small values)
+
+			if (x == (int)x) {
+				throw new IllegalArgumentException("Negative integers are undefined");	// All negative integers are undefined for gamma function
+			}
+
+			return Math.PI / (Math.sin(Math.PI * x) * gamma(1-x));						// Reflection formula for inputs under 0.5 (including negative values)
 		}
-			
+
+		if (x == (int)x) {
+
+			return factorial((int)x - 1);
+
+		}
+
 		else {																					// Lanczos Formula for larger inputs
-			
+
 			final double G = 7;					// constant used in Lanczos Formula
 
 		 	final double[] GAMMACOEFFS = {		// coefficients dependent on G needed for approximating gamma function
+				0.99999999999980993,
 				676.5203681218851,
 				-1259.1392167224028,
 				771.32342877765313,
@@ -189,13 +298,13 @@ public class Function {
 				1.5056327351493116e-7
 		};
 
-			x -= 1;									
-			double a = 0.99999999999980993;							// accumulator variable 
+			x -= 1;
+			double a = GAMMACOEFFS[0];						// accumulator variable
 			double t = x + G + 0.5;									// variable to simplify Lanczos Formula manipulation
 
-			for (int i = 0; i < GAMMACOEFFS.length; i++) {
+			for (int i = 1; i < GAMMACOEFFS.length; i++) {
 
-				a += GAMMACOEFFS[i] / (x + i + 1);
+				a += GAMMACOEFFS[i] / (x + i);
 
 			}
 
@@ -207,25 +316,41 @@ public class Function {
 
 	}
 
-	// MAD (Mean Absolute Deviation)
-	public double MAD(double X, double myu, double N) throws ArithmeticException
+	/**
+	 *  MAD (Mean Absolute Deviation)
+	 * @param X
+	 * @param myu
+	 * @param N
+	 * @return
+	 * @throws ArithmeticException
+	 */
+	public double MAD(double data[]) throws ArithmeticException
 	{
-		if (N == 0) throw new ArithmeticException("Sample size is zero!");
+		if (data.length == 0) throw new ArithmeticException("Sample size is zero!");
 
-		double absDeviation = (X - myu < 0) ? myu - X : X - myu;
+		double mean = computeMean(data);
+		double sumAbsoluteDeviations = 0;
+		for (double num : data) {
+			sumAbsoluteDeviations += absolute(num - mean);
+		}
 
-		return (absDeviation) / N;
+		return sumAbsoluteDeviations / data.length;
 	}
 
-	
-	// Standard Deviation
-	public double stdDeviation(double[] data) {
+
+	/**
+	 *  Standard Deviation
+	 * @param data input value
+	 * @return result
+	 */
+	public double stdDeviation(double[] data)
+	{
 		int n = data.length;
 		if(n == 0){
 			throw new IllegalArgumentException("No data was given!");
 		}
         double sum = 0;
-        
+
         // Calculate mean
         for (double value : data) {
             sum += value;
@@ -238,15 +363,18 @@ public class Function {
             varianceSum +=  xy((value - mean), 2);
         }
         double variance = varianceSum / n;
-        
+
         // Calculate standard deviation
         return Math.sqrt(variance);
 	}
 
-	
-	// factorial function
-	public long factorial(int x) {
 
+	/**
+	 * factorial function using recursion
+	 * @param x input value
+	 * @return result
+	 */
+	public long factorial(int x) {
 		if (x == 0 || x == 1)					//returns 1 for end of recursion
 			return 1;
 
@@ -254,42 +382,27 @@ public class Function {
 
 	}
 
-/* 	// sin(x) function
-	public double sin(double x) {
-
-		x = x % (2 * Math.PI);		
-
-		double result = 0.0;
-
-		for (int i = 0; i < 10; i++) {
-
-			int exponent = 2 * i + 1;
-			double term = xy(x, exponent) / factorial(exponent);
-			
-			if (i % 2 != 0)
-				term = -term;
-
-			result += term;
-			
-		}
-
-		return result;
-
-	}*/
-
-
-	// sinh(x)
-	// Using the definition of hyperbolic sine: sinh(x) = (e^x - e^-x) / 2
+	/**
+	 * sinh(x) Using the definition of hyperbolic sine: sinh(x) = (e^x - e^-x) / 2
+	 * @param x input value
+	 * @return result
+	 */
 	public double sinh(double x){
 		double expX = Math.exp(x);
         double expNegX = Math.exp(-x);
         return (expX - expNegX) / 2.0;
 	}
 
-	// x^y
-	public double xy(double x, double y)
+	/**
+	 * x^y exponent function
+	 * @param x base value
+	 * @param y exponent value
+	 * @return result
+	 */
+	double xy(double x, double y)
 	{
 		double exponent = (y < 0) ? -y : y;
+
 		double result = 1;
 
 		for (int i = 0; i < exponent; i++) {
@@ -299,6 +412,12 @@ public class Function {
 		return (y < 0) ? 1/result : result;
 	}
 
+	/**
+	 * modulus function
+	 * @param a dividen value
+	 * @param b divisor value
+	 * @return result
+	 */
 	public static int modulo(int a, int b){
 		return a % b;
 	}
