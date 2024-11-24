@@ -3,16 +3,12 @@ package Calculator;
 /*********************************************
 SOURCE: https://www.javatpoint.com/calculator-in-java
 **********************************************/
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
+import java.awt.event.*;
 import java.util.ArrayList;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.*;
+import javax.swing.border.Border;
 
 import Functions.Function;
 import Utilities.Utilities;
@@ -60,20 +56,22 @@ public class MyCalculator extends JFrame {
         setSize(FRAME_WIDTH, FRAME_HEIGHT);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
+        getContentPane().setBackground(new Color(45, 45, 45));
+        
         int tempX = TOPX, y = TOPY;
 
         // Display Label
-        displayLabel.setBounds(tempX, y, 400, HEIGHT);
-        displayLabel.setBackground(Color.BLUE);
-        displayLabel.setForeground(Color.WHITE);
+        displayLabel.setBounds(tempX, y, 412, HEIGHT);
+        displayLabel.setBackground(new Color(153, 255, 153));
+        displayLabel.setForeground(Color.black);
         displayLabel.setOpaque(true);
         displayLabel.setFont(new Font("Arial", Font.PLAIN, 30));
         add(displayLabel);
         
         // Instruction Label
-        instructLabel.setBounds(tempX, FRAME_HEIGHT - y - HEIGHT/2, 400, HEIGHT/2);
+        instructLabel.setBounds(tempX, FRAME_HEIGHT - y - HEIGHT/2, 412, HEIGHT/2);
         instructLabel.setBackground(Color.BLACK);
-        instructLabel.setForeground(Color.WHITE);
+        instructLabel.setForeground(Color.white);
         instructLabel.setOpaque(true);
         instructLabel.setFont(new Font("Arial", Font.PLAIN, 10));
         add(instructLabel);
@@ -87,17 +85,21 @@ public class MyCalculator extends JFrame {
         y = TOPY + 2 * (HEIGHT + V_SPACE);
         for (int i = 0; i < memoryButton.length; i++) {
             memoryButton[i] = new MyMemoryButton(tempX, y, WIDTH, HEIGHT, memoryButtonText[i], this);
-            memoryButton[i].setForeground(Color.RED);
+            memoryButton[i].setFocusable(false);
+            memoryButton[i].setBackground(new Color(54, 69, 79));
+            memoryButton[i].setForeground(Color.white);
             y += HEIGHT + V_SPACE;
         }
 
         // Special Buttons
-        tempX = TOPX + (WIDTH + H_SPACE);
+        tempX = TOPX + (WIDTH + H_SPACE) - 70;
         y = TOPY + HEIGHT + V_SPACE;
         for (int i = 0; i < specialButton.length; i++) {
             specialButton[i] = new MySpecialButton(tempX, y, WIDTH * 2, HEIGHT, specialButtonText[i], this);
-            specialButton[i].setForeground(Color.RED);
-            tempX += 2 * WIDTH + H_SPACE;
+            specialButton[i].setFocusable(false);
+            specialButton[i].setBackground(new Color(54, 69, 79));
+            specialButton[i].setForeground(Color.white);
+            tempX += 2 * WIDTH + H_SPACE + 15;
         }
 
         // Digit Buttons
@@ -105,7 +107,9 @@ public class MyCalculator extends JFrame {
         y = TOPY + 2 * (HEIGHT + V_SPACE);
         for (int i = 0; i < digitButton.length; i++) {
             digitButton[i] = new MyDigitButton(tempX, y, WIDTH, HEIGHT, digitButtonText[i], this);
-            digitButton[i].setForeground(Color.BLUE);
+            digitButton[i].setFocusable(false);
+            digitButton[i].setBackground(new Color(32, 32, 32));
+            digitButton[i].setForeground(Color.white);
             tempX += WIDTH + H_SPACE;
             if ((i + 1) % 3 == 0) {
                 tempX = TOPX + WIDTH + H_SPACE;
@@ -118,7 +122,9 @@ public class MyCalculator extends JFrame {
         y = TOPY + 2 * (HEIGHT + V_SPACE);
         for (int i = 0; i < operatorButton.length; i++) {
             operatorButton[i] = new MyOperatorButton(opsX, y, WIDTH, HEIGHT, operatorButtonText[i], this);
-            operatorButton[i].setForeground(Color.RED);
+            operatorButton[i].setFocusable(false);
+            operatorButton[i].setBackground(new Color(54, 69, 79));
+            operatorButton[i].setForeground(Color.white);
             opsX += WIDTH + H_SPACE;
             if ((i + 1) % 2 == 0) {
                 opsX = tempX + 3 * (WIDTH + H_SPACE);
@@ -127,14 +133,16 @@ public class MyCalculator extends JFrame {
         }
         
         // Transcend Buttons
-        int transX = TOPX + WIDTH + H_SPACE;
+        int transX = TOPX + WIDTH + H_SPACE - 70;
         y += V_SPACE;
-        for (int i = 0; i < operatorButton.length; i++) {
-            transcendButton[i] = new MyTranscendButton(transX, y, WIDTH, HEIGHT, transcendButtonText[i], this);
-            transcendButton[i].setForeground(Color.RED);
-            transX += WIDTH + H_SPACE;
+        for (int i = 0; i < transcendButton.length; i++) {
+            transcendButton[i] = new MyTranscendButton(transX, y, WIDTH + 12, HEIGHT, transcendButtonText[i], this);
+            transcendButton[i].setFocusable(false);
+            transcendButton[i].setBackground(new Color(54, 69, 79));
+            transcendButton[i].setForeground(Color.white);
+            transX += WIDTH + H_SPACE + 15;
             if ((i + 1) % 5 == 0) {
-            	transX = TOPX + WIDTH + H_SPACE;
+            	transX = TOPX + WIDTH + H_SPACE - 70;
                 y += HEIGHT + V_SPACE;
             }
         }
@@ -255,7 +263,7 @@ class MyOperatorButton extends JButton implements ActionListener {
 //        Layout layoutInfo = new Layout(x, y, font, Color.BLACK);
         
         // Set the font size for the text
-        setFont(new Font("Arial", Font.PLAIN, 10));  // Adjust the font size as needed
+        setFont(new Font("Arial", Font.PLAIN, 14));  // Adjust the font size as needed
 
         // Optional: Set button size explicitly, depending on the layout you are using
         setPreferredSize(new Dimension(width, height)); 
@@ -297,7 +305,7 @@ class MyOperatorButton extends JButton implements ActionListener {
 
         double temp = Double.parseDouble(cl.displayLabel.getText());
 
-        if (opText.equals("1/x")) {
+        if (opText.equals("1/X")) {
             try {
                 double tempd = 1 / temp;
                 cl.displayLabel.setText(MyCalculator.getFormattedText(tempd));
@@ -375,7 +383,7 @@ class MyMemoryButton extends JButton implements ActionListener {
 //        Layout layoutInfo = new Layout(x, y, font, Color.BLACK);
         
         // Set the font size for the text
-        setFont(new Font("Arial", Font.PLAIN, 10));  // Adjust the font size as needed
+        setFont(new Font("Arial", Font.PLAIN, 14));  // Adjust the font size as needed
 
         // Optional: Set button size explicitly, depending on the layout you are using
         setPreferredSize(new Dimension(width, height)); 
@@ -475,7 +483,7 @@ class MyTranscendButton extends JButton implements ActionListener {
 //        Layout layoutInfo = new Layout(x, y, font, Color.BLACK);
         
         // Set the font size for the text
-        setFont(new Font("Arial", Font.PLAIN, 8));  // Adjust the font size as needed
+        setFont(new Font("Arial", Font.PLAIN, 12));  // Adjust the font size as needed
 
         // Optional: Set button size explicitly, depending on the layout you are using
         setPreferredSize(new Dimension(width, height)); 
@@ -495,7 +503,7 @@ class MyTranscendButton extends JButton implements ActionListener {
 	     * 5. Set the calculator display text (top text box)
 	     */
 	    switch (transText) {
-	        case "arccos(x)":
+	        case "cos-1":
 	            // 1. Set the instruction text
 	            cl.instructLabel.setText("Input a single value x for arccos(x).");
 	            // 2. Set the Function class function in progress
@@ -516,7 +524,7 @@ class MyTranscendButton extends JButton implements ActionListener {
 	            cl.displayLabel.setText("ab^x");
 	            break;
 	
-	        case "log_b(x)":
+	        case "log":
 	            cl.instructLabel.setText("Input the base and value x with a space between using underscore (e.g., 5_3).");
 	            Function.functionChoice = Function.functions.log_b.toString();
 	            Function.inputNeeded = 2;
@@ -524,12 +532,12 @@ class MyTranscendButton extends JButton implements ActionListener {
 	            cl.displayLabel.setText("log_b(x)");
 	            break;
 	
-	        case "gamma":
+	        case "Γ(x)":
 	            cl.instructLabel.setText("Input a single value x for Gamma function calculation.");
 	            Function.functionChoice = Function.functions.gamma.toString();
 	            Function.inputNeeded = 1;
 	            cl.op = Function.functionChoice;
-	            cl.displayLabel.setText("gamma(x)");
+	            cl.displayLabel.setText("Γ(x)");
 	            break;
 	
 	        case "MAD":
@@ -540,7 +548,7 @@ class MyTranscendButton extends JButton implements ActionListener {
 	            cl.displayLabel.setText("MAD");
 	            break;
 	
-	        case "Std Deviation":
+	        case "StdDev":
 	            cl.instructLabel.setText("Input a list of values separated by underscores (e.g., 1_2_3).");
 	            Function.functionChoice = Function.functions.StdDeviation.toString();
 	            Function.inputNeeded = Integer.MAX_VALUE; // Allows multiple inputs
@@ -564,6 +572,22 @@ class MyTranscendButton extends JButton implements ActionListener {
 	            cl.displayLabel.setText("x^y");
 	            break;
 	
+            case "n!":
+                cl.instructLabel.setText("Input a single value for factorial.");
+                Function.functionChoice = Function.functions.factorial.toString();
+                Function.inputNeeded = 1;
+                cl.op = Function.functionChoice;
+                cl.displayLabel.setText("n!");
+                break;
+
+            case "+/-":
+                cl.instructLabel.setText("Input a single value for sign change");
+                Function.functionChoice = Function.functions.signChange.toString();
+                Function.inputNeeded = 1;
+                cl.op = Function.functionChoice;
+                cl.displayLabel.setText("+/-");
+                break;
+
 	        default:
 	            System.err.println("Transcendental function does not exist!");
 	            break;
@@ -602,3 +626,36 @@ class Layout {
 		this(-1, -1, -1, Color.BLACK);
 	}
 }
+
+/*class Rounded implements Border {
+
+    private int radius;
+
+    public Rounded(int radius) {
+
+        this.radius = radius;
+
+    }
+
+    @Override
+    public Insets getBorderInsets(Component c) {
+
+        return new Insets(radius + 1, radius + 1, radius + 1, radius + 1);
+
+    }
+
+    @Override
+    public boolean isBorderOpaque(){return true;}
+
+    @Override
+    public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+
+        Graphics2D gnew = (Graphics2D) g.create();
+        gnew.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        gnew.setColor(c.getBackground());
+        gnew.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
+        gnew.dispose();
+
+    }
+
+}*/
