@@ -3,12 +3,16 @@ package Calculator;
 /*********************************************
 SOURCE: https://www.javatpoint.com/calculator-in-java
 **********************************************/
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.*;
-import javax.swing.border.Border;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 import Functions.Function;
 import Utilities.Utilities;
@@ -49,9 +53,9 @@ public class MyCalculator extends JFrame {
     final int H_SPACE = Utilities.Constant.H_SPACE, V_SPACE = Utilities.Constant.V_SPACE;
     final int TOPX = Utilities.Constant.TOPX, TOPY = Utilities.Constant.TOPY;
 
-    public MyCalculator(String frameText) {
+    public MyCalculator(String frameText) throws Exception {
         super(frameText);
-
+		
         setLayout(null);
         setSize(FRAME_WIDTH, FRAME_HEIGHT);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -293,7 +297,11 @@ class MyOperatorButton extends JButton implements ActionListener {
                 // TODO ~
                 try {
 					result = f.input(cl.number);
-				} catch (Exception e) {
+				} catch (IllegalArgumentException e) {
+					cl.instructLabel.setText(e.toString());
+					e.printStackTrace();
+				}
+				catch (ArithmeticException e) {
 					cl.instructLabel.setText(e.toString());
 					e.printStackTrace();
 				}
@@ -532,12 +540,12 @@ class MyTranscendButton extends JButton implements ActionListener {
 	            cl.displayLabel.setText("log_b(x)");
 	            break;
 	
-	        case "Γ(x)":
+	        case "Gamma(x)":
 	            cl.instructLabel.setText("Input a single value x for Gamma function calculation.");
 	            Function.functionChoice = Function.functions.gamma.toString();
 	            Function.inputNeeded = 1;
 	            cl.op = Function.functionChoice;
-	            cl.displayLabel.setText("Γ(x)");
+	            cl.displayLabel.setText("ﾎ�(x)");
 	            break;
 	
 	        case "MAD":

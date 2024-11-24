@@ -11,7 +11,7 @@ public abstract class Utilities {
 	// Class for all constants
 	public static abstract class Constant {
 		// Button for our functions
-		public static final String transcendButtonText[] = {"cos-1", "ab^x", "log", "Γ(x)", 
+		public static final String transcendButtonText[] = {"cos-1", "ab^x", "log", "Gamma(x)", 
 				"MAD", "StdDev", "sinh(x)", "x^y", "n!", "+/-"};
 		
 		// Size of our calculator window

@@ -44,7 +44,9 @@ public class Function {
 	 * @param number input data list
 	 * @throws Exception
 	 */
-	public double input(ArrayList<Double> number) throws Exception {
+	public double input(ArrayList<Double> number) 
+			throws IllegalArgumentException, ArithmeticException 
+	{
 	    if (inputNeeded == -1 || functionChoice.equals("Null")) {
 	        throw new IllegalArgumentException("Nah fam we not working! No input needed!");
 	    }

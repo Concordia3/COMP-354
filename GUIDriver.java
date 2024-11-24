@@ -19,18 +19,25 @@ public class GUIDriver {
 	
 	public static void main(String[] args) {
 		
-		new MyCalculator("Eternity");
-		MyCalculator.isRunning = true;
+		MyCalculator.isRunning = false;
 
-		while(true){
-			try{
-				if(!MyCalculator.isRunning){
+		while(true)
+		{
+			try
+			{
+				if(!MyCalculator.isRunning)
+				{
 					new MyCalculator("Eternity");
+					MyCalculator.isRunning = true;
 				}
-			}catch(Exception e){
+			}
+			catch(Exception e)
+			{
+				System.err.println("\nERROR! Restarting Calculator!\n");
 				MyCalculator.isRunning = false;
 			}
-				
+			
+			
 		}
 
 
