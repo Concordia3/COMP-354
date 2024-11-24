@@ -16,10 +16,12 @@ import javax.swing.JLabel;
 
 import Functions.Function;
 import Utilities.Utilities;
+
 /*********************************************/
 
 @SuppressWarnings("serial")
 public class MyCalculator extends JFrame {
+    public static boolean isRunning = false;
 
     boolean setClear = true;
     ArrayList<Double> number = new ArrayList<Double>(10);
@@ -273,11 +275,15 @@ class MyOperatorButton extends JButton implements ActionListener {
         	if (Function.isValidEnum(cl.op, Function.functions.class))
         	{
                 String input = cl.displayLabel.getText();
-                String[] tokens = input.split("\\s+");
-                cl.number.add(Double.parseDouble(tokens[cl.number.size()]));
-        		Function f = new Function();
+                if (input.charAt(input.length() - 1) != ' ') {
+                    String[] tokens = input.split("\\s+");
+                    cl.number.add(Double.parseDouble(tokens[cl.number.size()]));          
+                } 
+               Function f = new Function();
         		double result = 0;
-				try {
+				
+                // TODO ~
+                try {
 					result = f.input(cl.number);
 				} catch (Exception e) {
 					cl.instructLabel.setText(e.toString());
@@ -503,9 +509,9 @@ class MyTranscendButton extends JButton implements ActionListener {
 	            break;
 	
 	        case "ab^x":
-	            cl.instructLabel.setText("Input base a and exponent b, separated by an underscore (e.g., 2_3).");
+	            cl.instructLabel.setText("Input base a, base b and exponent x, separated by an underscore (e.g., 2_3_7).");
 	            Function.functionChoice = Function.functions.abx.toString();
-	            Function.inputNeeded = 2;
+	            Function.inputNeeded = 3;
 	            cl.op = Function.functionChoice;
 	            cl.displayLabel.setText("ab^x");
 	            break;
