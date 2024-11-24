@@ -23,7 +23,7 @@ public class Function {
 	
 	public static enum functions {
 		arccos, abx, log_b, gamma, 
-		MAD, StdDeviation, sinh, xy
+		MAD, StdDeviation, sinh, xy, factorial, signChange
 	}
 	
     // Generic method to check if the string is a valid enum constant
@@ -86,6 +86,12 @@ public class Function {
 	        case "xy":
 	            result = xy(number.get(0), number.get(1)); // Requires 2 inputs: base (x) and exponent (y)
 	            break;
+			case "factorial":
+				result = factorial(number.get(0).intValue());			// Requires 1 input
+				break;
+			case "signChange":
+				result = sign(number.get(0));
+				break;
 	        default:
 	            throw new IllegalArgumentException("Unknown function choice: " + functionChoice);
 	    }
@@ -371,7 +377,7 @@ public class Function {
 	 * @param x input value
 	 * @return result
 	 */
-	public long factorial(int x) {
+	public int factorial(int x) {
 		if (x == 0 || x == 1)					//returns 1 for end of recursion
 			return 1;
 
@@ -417,5 +423,17 @@ public class Function {
 	 */
 	public static int modulo(int a, int b){
 		return a % b;
+	}
+
+	/**
+	 * sign change function
+	 * @param x number whose sign will be changed
+	 * @return result
+	 */
+
+	public static double sign(double x) {
+
+		return -x;
+
 	}
 }
