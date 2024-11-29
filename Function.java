@@ -1,5 +1,12 @@
+<<<<<<< Updated upstream:Function.java
+=======
+package Functions;
+
+// java packages
+import java.util.ArrayList;
+
+>>>>>>> Stashed changes:Functions/Function.java
 /**
- *
  * The Function aspect of the Eternity calculator
  *
  * @author Cyrus Stonebanks
@@ -14,9 +21,17 @@
 public class Function {
 
 	/**
+<<<<<<< Updated upstream:Function.java
 	 * These functions are for later, when we formalized the data structure of our program
 	 * This Function class will become abstract
 	 * Becoming a blue print for the derived transcendental function class
+=======
+	 * * takes care of input, and return the result from the input with the current function choice
+	 * @param number input data list
+	 * @return result
+	 * @throws IllegalArgumentException
+	 * @throws ArithmeticException
+>>>>>>> Stashed changes:Functions/Function.java
 	 */
 
 	/**
@@ -256,9 +271,7 @@ public class Function {
 
 	/**
 	 *  MAD (Mean Absolute Deviation)
-	 * @param X
-	 * @param myu
-	 * @param N
+	 *
 	 * @return
 	 * @throws ArithmeticException
 	 */
