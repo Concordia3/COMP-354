@@ -1,11 +1,8 @@
-<<<<<<< Updated upstream:Function.java
-=======
 package Functions;
 
 // java packages
 import java.util.ArrayList;
 
->>>>>>> Stashed changes:Functions/Function.java
 /**
  * The Function aspect of the Eternity calculator
  *
@@ -18,35 +15,93 @@ import java.util.ArrayList;
  * @author Minghe Sun
  */
 
+/**
+ * Function class that holds the calculation implementation of our transcendental functions
+ */
 public class Function {
-
-	/**
-<<<<<<< Updated upstream:Function.java
-	 * These functions are for later, when we formalized the data structure of our program
-	 * This Function class will become abstract
-	 * Becoming a blue print for the derived transcendental function class
-=======
-	 * * takes care of input, and return the result from the input with the current function choice
-	 * @param number input data list
-	 * @return result
-	 * @throws IllegalArgumentException
-	 * @throws ArithmeticException
->>>>>>> Stashed changes:Functions/Function.java
-	 */
-
-	/**
-	 * takes care of input
-	 * @param in
-	 * @throws IllegalArgumentException
-	 */
-	public void input(double[] in) throws IllegalArgumentException {
+	
+	public static enum functions {
+		arccos, abx, log_b, gamma, 
+		MAD, StdDeviation, sinh, xy, factorial, fraction
 	}
+	
+    // Generic method to check if the string is a valid enum constant
+    public static <E extends Enum<E>> boolean isValidEnum(String value, Class<E> enumClass) {
+        try {
+            Enum.valueOf(enumClass, value);
+            return true; // If no exception is thrown, the string is a valid enum constant
+        } catch (IllegalArgumentException e) {
+            return false; // If an exception is thrown, the string is not a valid enum constant
+        }
+    }
+	
+	public static int inputNeeded = -1;
+	public static String functionChoice = "Null";
 
 	/**
-	 * Performs the calculation
-	 * @throws ArithmeticException
+	 * takes care of input, and return the result from the input with the current function choice
+	 * @param number input data list
+	 * @throws Exception
 	 */
-	public void calculate() throws ArithmeticException {
+	public double input(ArrayList<Double> number) 
+			throws IllegalArgumentException, ArithmeticException 
+	{
+	    if (inputNeeded == -1 || functionChoice.equals("Null")) {
+	        throw new IllegalArgumentException("Nah fam we not working! No input needed!");
+	    }
+	    
+	    if (functionChoice != functions.StdDeviation.toString() && inputNeeded > number.size()) {
+	        throw new IllegalArgumentException("More input needed!");
+	    }
+	    
+	    // result
+	    double result = 0;
+	    
+	    /*
+	     * Match the functionChoice string with the appropriate method.
+	     */
+	    switch (functionChoice) {
+	        case "arccos":
+	            result = arccos(number.get(0)); // Requires 1 input
+	            break;
+	        case "abx":
+	            result = abx(number.get(0), number.get(1), number.get(2)); // Requires 3 inputs: a, b, x
+	            break;
+	        case "log_b":
+	            result = log(number.get(0), number.get(1)); // Requires 2 inputs: base and x
+	            break;
+	        case "gamma":
+	            result = gamma(number.get(0)); // Requires 1 input
+	            break;
+	        case "MAD":
+	            double[] madData = number.stream().mapToDouble(Double::doubleValue).toArray(); // Convert ArrayList to array
+	            result = MAD(madData); // Requires an array of inputs
+	            break;
+	        case "StdDeviation":
+	            double[] stdDevData = number.stream().mapToDouble(Double::doubleValue).toArray(); // Convert ArrayList to array
+	            result = stdDeviation(stdDevData); // Requires an array of inputs
+	            break;
+	        case "sinh":
+	            result = sinh(number.get(0)); // Requires 1 input
+	            break;
+	        case "xy":
+	            result = xy(number.get(0), number.get(1)); // Requires 2 inputs: base (x) and exponent (y)
+	            break;
+			case "factorial":
+				result = factorial(number.get(0).intValue());			// Requires 1 input
+				break;
+			case "fraction":
+				result = fraction(number.get(0));
+				break;
+	        default:
+	            throw new IllegalArgumentException("Unknown function choice: " + functionChoice);
+	    }
+	    
+	    // Reset
+	    inputNeeded = -1;
+	    functionChoice = "Null";
+	    
+	    return result;
 	}
 
 	/**
@@ -58,7 +113,7 @@ public class Function {
 
 	/**
 	 * These are the functions for D2. Feel free to seperate them into their own class.
-	 * If you do so, emember to derived from this Function class
+	 * If you do so, remember to derived from this Function class
 	 */
 
 	/**
@@ -107,13 +162,6 @@ public class Function {
 		return a*bx;
 	}
 
-
-    /**
-     *  Method to calculate ln(x) using a Taylor series
-     * @param x positive value
-     * @return result
-     */
-
 	public double abx_2(double a, double b, double x) {
 		double result = a * power(b, x);
 		return result;
@@ -154,8 +202,11 @@ public class Function {
 		return result;
 	}
 
-    // Method to calculate ln(x) using a Taylor series
-
+    /**
+     *  Method to calculate ln(x) using a Taylor series
+     * @param x positive value
+     * @return result
+     */
     public static double calculateLn(double x) {
         if (x <= 0) {
             throw new IllegalArgumentException("x must be positive.");
@@ -178,7 +229,7 @@ public class Function {
         }
 
         result *= 2; // Multiply by 2 as per Taylor series formula
-        result += k * 0.69314718056; // Adjust for factors of 2 (ln(2) ≈ 0.693147)
+        result += k * 0.69314718056; // Adjust for factors of 2 (ln(2))
 
         return result;
     }
@@ -197,8 +248,11 @@ public class Function {
         return lnX / lnBase;
 	}
 
-
-
+	/**
+	 * Compute Mean
+	 * @param data sample input values
+	 * @return result mean of sample input values
+	 */
 	private static double computeMean(double[] data) {
 		double sum = 0;
 		for (double num : data) {
@@ -210,7 +264,6 @@ public class Function {
 	private static double absolute(double value) {
 		return value < 0 ? -value : value;
 	}
-
 
 	/**
 	 * Gamma function using Lanczos Approximation
@@ -271,7 +324,9 @@ public class Function {
 
 	/**
 	 *  MAD (Mean Absolute Deviation)
-	 *
+	 * @param X
+	 * @param myu
+	 * @param N
 	 * @return
 	 * @throws ArithmeticException
 	 */
@@ -288,18 +343,12 @@ public class Function {
 		return sumAbsoluteDeviations / data.length;
 	}
 
-
 	/**
 	 *  Standard Deviation
 	 * @param data input value
 	 * @return result
 	 */
 	public double stdDeviation(double[] data)
-
-
-	// (Standard Deviation)
-  // public double stdDeviation()
-
 	{
 		int n = data.length;
 		if(n == 0){
@@ -324,13 +373,13 @@ public class Function {
         return Math.sqrt(variance);
 	}
 
-
 	/**
 	 * factorial function using recursion
 	 * @param x input value
 	 * @return result
 	 */
-	public long factorial(int x) {
+	public int factorial(int x) {					
+		
 		if (x == 0 || x == 1)					//returns 1 for end of recursion
 			return 1;
 
@@ -355,7 +404,7 @@ public class Function {
 	 * @param y exponent value
 	 * @return result
 	 */
-	double xy(double x, double y)
+	public double xy(double x, double y)
 	{
 		double exponent = (y < 0) ? -y : y;
 
@@ -376,5 +425,17 @@ public class Function {
 	 */
 	public static int modulo(int a, int b){
 		return a % b;
+	}
+
+	/**
+	 * sign change function
+	 * @param x number whose sign will be changed
+	 * @return result
+	 */
+
+	public static double fraction(double x) {
+
+		return 1/x;
+
 	}
 }

@@ -1,11 +1,15 @@
+// Java libraries
 import java.util.Scanner;
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+// User libraries
+import Functions.Function;
+
 /**
  *
- * Main Driver for the Eternity Calculator
+ * Main Cmd Line Driver for the Eternity Calculator
  *
  * @author Cyrus Stonebanks
  * @author Tristan Szittner-Francis
@@ -15,8 +19,7 @@ import java.nio.file.Paths;
  * @author Minh Thien Tran
  * @author Minghe Sun
  */
-
-public class Driver {
+public class CmdLineDriver {
 
     public static void main(String[] args) {
 
