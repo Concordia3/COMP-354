@@ -1,6 +1,7 @@
 # COMP-354 Calculator Project  
 
-This project is a feature-rich calculator built using Java Swing. The calculator implements a range of advanced mathematical functions designed and implemented by team members of COMP-354.
+This project is a calculator built using Java Swing. The calculator implements a 8 advanced mathematical functions designed and implemented directly without Java Math libraries.
+Built for the COMP-354 Introduction to Software Engineering project at Concordia University.
 
 ## Features  
 
@@ -51,7 +52,7 @@ The calculator includes the following functions:
 
 1. Run cmd:
     ```bash
-    java -jar Calculator.jar
+    java -jar <Name of Jar>.jar
 
 ## Alternatively, you can run the program using Java Compiler
 
@@ -65,10 +66,10 @@ The calculator includes the following functions:
 
 ### Comand line
 
-2. Compile the Java files
+1. Compile the Java files
     ```bash
     javac -d bin src/*.java
 
-3. Run the application:
+2. Run the application:
     ```bash
     java -cp bin Main
