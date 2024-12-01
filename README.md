@@ -45,16 +45,17 @@ The calculator includes the following functions:
 
 # How to Run Program
 
-## Run the JAR file using the following command:
+## Run the JAR files:
 
 1. Get the jar binaries in the Release section of this repo.
 
-1. Run cmd: 
-java -jar Calculator.jar
+1. Run cmd:
+    ```bash
+    java -jar Calculator.jar
 
 ## Alternatively, you can run the program using Java Compiler
 
-1. Clone the repository:  
+- Clone the repository:  
    ```bash
    git clone <repository_url>
    cd COMP-354-Calculator
@@ -65,9 +66,9 @@ java -jar Calculator.jar
 ### Comand line
 
 2. Compile the Java files
+    ```bash
     javac -d bin src/*.java
 
 3. Run the application:
-    bash
-    Copy code
+    ```bash
     java -cp bin Main
