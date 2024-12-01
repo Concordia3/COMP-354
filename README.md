@@ -1,6 +1,7 @@
 # COMP-354 Calculator Project  
 
-This project is a calculator built using Java Swing. The calculator implements a 8 advanced mathematical functions designed and implemented directly without Java Math libraries.
+This project is a calculator built using Java Swing. The calculator implements 8 advanced mathematical functions designed and implemented directly without Java Math libraries.
+
 Built for the COMP-354 Introduction to Software Engineering project at Concordia University.
 
 ## Features  
