@@ -1,1 +1,1 @@
-typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"<Unnamed>","l":"Function"}];updateSearchResults();
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"Audio","l":"Audio"},{"p":"<Unnamed>","l":"CmdLineDriver"},{"p":"Utilities","l":"Utilities.Constant"},{"p":"Functions","l":"Function"},{"p":"Functions","l":"Function.functions"},{"p":"<Unnamed>","l":"GUIDriver"},{"p":"Utilities","l":"Utilities.MathOps"},{"p":"Calculator","l":"MyCalculator"},{"p":"Utilities","l":"Utilities"}];updateSearchResults();
